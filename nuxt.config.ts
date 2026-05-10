@@ -28,8 +28,9 @@ export default defineNuxtConfig({
   },
   googleFonts: {
     families: {
-      'Space Grotesk': [300, 400, 500, 600, 700],
-      'JetBrains Mono': [400, 500, 700]
+      'Space Grotesk': [400, 500, 600, 700],
+      'Inter': [400, 500, 600, 700],
+      'JetBrains Mono': [400, 500]
     }
   },
 })

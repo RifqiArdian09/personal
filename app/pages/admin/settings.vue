@@ -39,16 +39,24 @@ const toggleTheme = () => {
 
 <template>
   <div class="max-w-3xl mx-auto space-y-8 pb-12">
-    <div>
-      <h1 class="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">System Settings</h1>
-      <p class="text-slate-500 dark:text-slate-400 mt-1">Customize your admin experience and site-wide defaults.</p>
+    <!-- Page Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+      <div>
+        <h2 class="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+          <UIcon name="i-heroicons-cog-6-tooth" class="text-slate-500 w-6 h-6" />
+          System Settings
+        </h2>
+        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
+          Customize your admin experience and site-wide defaults.
+        </p>
+      </div>
     </div>
 
     <div class="grid grid-cols-1 gap-8">
       <UCard>
         <template #header>
-          <h3 class="font-bold flex items-center gap-2">
-            <UIcon name="i-heroicons-language" class="text-primary-500" />
+          <h3 class="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <UIcon name="i-heroicons-language" class="text-primary-500 w-5 h-5" />
             Localization
           </h3>
         </template>
@@ -67,8 +75,8 @@ const toggleTheme = () => {
 
       <UCard>
         <template #header>
-          <h3 class="font-bold flex items-center gap-2">
-            <UIcon name="i-heroicons-swatch" class="text-blue-500" />
+          <h3 class="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <UIcon name="i-heroicons-swatch" class="text-blue-500 w-5 h-5" />
             Appearance
           </h3>
         </template>

@@ -10,7 +10,7 @@ const { data: certificates, pending: loading, refresh: fetchCertificates } = awa
   const { data, error } = await supabase
     .from('certificates')
     .select('*')
-    .order('sort_order', { ascending: true })
+    .order('created_at', { ascending: false })
   
   if (error) throw error
   return data || []
@@ -36,14 +36,20 @@ const form = ref({
   issuer: '',
   image_url: '',
   verification_url: '',
-  issued_at: '',
-  sort_order: 0
+  issued_at: ''
 })
 
 const openModal = (cert: any = null) => {
   if (cert) {
     editingCert.value = cert
-    form.value = { ...cert }
+    // Spread but exclude sort_order from display
+    form.value = {
+      title: cert.title,
+      issuer: cert.issuer,
+      image_url: cert.image_url || '',
+      verification_url: cert.verification_url || '',
+      issued_at: cert.issued_at || ''
+    }
   } else {
     editingCert.value = null
     form.value = { 
@@ -51,8 +57,7 @@ const openModal = (cert: any = null) => {
       issuer: '', 
       image_url: '', 
       verification_url: '', 
-      issued_at: new Date().toISOString().split('T')[0], 
-      sort_order: certificates.value?.length || 0 
+      issued_at: new Date().toISOString().split('T')[0]
     }
   }
   isOpen.value = true
@@ -121,16 +126,22 @@ const columns = [
 
 <template>
   <div class="space-y-6">
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <!-- Page Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
       <div>
-        <h2 class="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">Manage Certificates</h2>
-        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Add or update your professional achievements.</p>
+        <h2 class="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+          <UIcon name="i-heroicons-academic-cap" class="text-orange-500 w-6 h-6" />
+          Manage Certificates
+        </h2>
+        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
+          Add or update your professional achievements.
+        </p>
       </div>
       <UButton
         color="primary"
         icon="i-heroicons-plus"
         size="lg"
-        class="rounded-xl shadow-lg shadow-primary-500/20 px-6"
+        class="rounded-xl px-5 shadow-lg shadow-primary-500/20 transition-transform hover:scale-105"
         @click="openModal()"
       >
         Add New
@@ -145,6 +156,17 @@ const columns = [
           :loading="loading"
           class="w-full"
         >
+          <template #empty>
+            <div class="flex flex-col items-center justify-center py-16 text-center">
+              <div class="w-16 h-16 bg-slate-50 dark:bg-slate-800 rounded-full flex items-center justify-center mb-4 border border-slate-100 dark:border-slate-700 shadow-sm">
+                <UIcon name="i-heroicons-academic-cap" class="w-8 h-8 text-slate-400" />
+              </div>
+              <p class="text-base font-semibold text-slate-900 dark:text-white">No certificates found</p>
+              <p class="text-sm text-slate-500 mt-1 max-w-sm">Showcase your achievements by adding a new certificate.</p>
+              <UButton @click="openModal()" color="primary" variant="soft" icon="i-heroicons-plus" class="mt-4 rounded-xl">Add Certificate</UButton>
+            </div>
+          </template>
+
           <template #image_url-cell="{ row }">
             <img v-if="row.original.image_url" :src="row.original.image_url" class="w-16 h-10 object-cover rounded-lg" :alt="row.original.title" />
             <div v-else class="w-16 h-10 bg-slate-100 dark:bg-slate-800 rounded-lg flex items-center justify-center">
@@ -181,43 +203,54 @@ const columns = [
 
     <UModal v-model:open="isOpen">
       <template #content>
-        <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
-          <template #header>
-            <h3 class="text-lg font-bold">{{ editingCert ? 'Edit' : 'Add' }} Certificate</h3>
-          </template>
+        <div class="flex flex-col bg-white dark:bg-slate-900 rounded-2xl shadow-xl overflow-hidden" style="max-height: 90vh;">
+          <!-- Modal Header -->
+          <div class="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800 shrink-0">
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <UIcon :name="editingCert ? 'i-heroicons-pencil-square' : 'i-heroicons-plus-circle'" class="text-teal-500 w-5 h-5" />
+              {{ editingCert ? 'Edit' : 'Add' }} Certificate
+            </h3>
+            <UButton
+              icon="i-heroicons-x-mark"
+              color="neutral"
+              variant="ghost"
+              size="sm"
+              class="rounded-lg"
+              @click="isOpen = false"
+            />
+          </div>
 
-        <div class="space-y-4 py-4">
-          <UFormField label="Title">
-            <UInput class="w-full" v-model="form.title" placeholder="Fullstack Developer Certificate" />
-          </UFormField>
-          <UFormField label="Issuer">
-            <UInput class="w-full" v-model="form.issuer" placeholder="Udemy / Google" />
-          </UFormField>
-          <div class="grid grid-cols-2 gap-4">
+          <!-- Scrollable Body -->
+          <div class="flex-1 overflow-y-auto px-6 py-5 space-y-5">
+            <UFormField label="Title">
+              <UInput class="w-full" v-model="form.title" placeholder="Fullstack Developer Certificate" icon="i-heroicons-document-text" />
+            </UFormField>
+            <UFormField label="Issuer">
+              <UInput class="w-full" v-model="form.issuer" placeholder="Udemy / Google" icon="i-heroicons-building-office" />
+            </UFormField>
             <UFormField label="Issue Date">
               <UInput class="w-full" v-model="form.issued_at" type="date" />
             </UFormField>
-            <UFormField label="Sort Order">
-              <UInput class="w-full" v-model="form.sort_order" type="number" />
+            <UFormField label="Certificate Image">
+              <ImageUpload
+                v-model="form.image_url"
+                bucket="certificates"
+                class="w-full"
+              />
+            </UFormField>
+            <UFormField label="Verification URL">
+              <UInput class="w-full" v-model="form.verification_url" placeholder="https://..." icon="i-heroicons-link" />
             </UFormField>
           </div>
-          <ImageUpload
-            v-model="form.image_url"
-            bucket="certificates"
-            label="Certificate Image"
-          />
-          <UFormField label="Verification URL">
-            <UInput class="w-full" v-model="form.verification_url" placeholder="https://..." />
-          </UFormField>
-        </div>
 
-        <template #footer>
-          <div class="flex justify-end gap-3">
-            <UButton variant="ghost" color="neutral" @click="isOpen = false">Cancel</UButton>
-            <UButton color="primary" @click="saveCert">Save</UButton>
+          <!-- Sticky Footer -->
+          <div class="flex justify-end gap-3 px-6 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 shrink-0">
+            <UButton variant="ghost" color="neutral" class="rounded-xl px-5" @click="isOpen = false">Batal</UButton>
+            <UButton color="primary" icon="i-heroicons-check" class="rounded-xl px-5 shadow-lg shadow-teal-500/20" @click="saveCert">
+              {{ editingCert ? 'Update' : 'Simpan' }}
+            </UButton>
           </div>
-        </template>
-      </UCard>
+        </div>
       </template>
     </UModal>
 

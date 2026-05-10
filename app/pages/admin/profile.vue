@@ -64,18 +64,23 @@ onMounted(() => {
 
 <template>
   <div class="space-y-8 pb-12 max-w-5xl mx-auto">
-    <!-- Header Section -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <!-- Page Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
       <div>
-        <h1 class="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">Profile Settings</h1>
-        <p class="text-slate-500 dark:text-slate-400 mt-1">Manage your identity and how people can reach you.</p>
+        <h2 class="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+          <UIcon name="i-heroicons-user-circle" class="text-indigo-500 w-6 h-6" />
+          Profile Settings
+        </h2>
+        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
+          Manage your identity and how people can reach you.
+        </p>
       </div>
       <UButton
         color="primary"
         size="lg"
         icon="i-heroicons-check"
         :loading="saving"
-        class="shadow-xl shadow-primary-500/20 px-8"
+        class="rounded-xl px-8 shadow-lg shadow-primary-500/20 transition-transform hover:scale-105"
         @click="saveProfile"
       >
         Save Changes
@@ -87,7 +92,10 @@ onMounted(() => {
       <div class="lg:col-span-4 space-y-8">
         <UCard>
           <template #header>
-            <h3 class="font-bold">Display Photo</h3>
+            <h3 class="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <UIcon name="i-heroicons-camera" class="text-indigo-500 w-5 h-5" />
+              Display Photo
+            </h3>
           </template>
           <div class="flex flex-col items-center gap-6 py-2">
             <ImageUpload
@@ -103,7 +111,10 @@ onMounted(() => {
 
         <UCard>
           <template #header>
-            <h3 class="font-bold">Professional Role</h3>
+            <h3 class="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <UIcon name="i-heroicons-briefcase" class="text-indigo-500 w-5 h-5" />
+              Professional Role
+            </h3>
           </template>
           <UFormField label="Title / Tagline" description="Displayed under your name">
             <UInput class="w-full" v-model="profile.role" placeholder="e.g. Fullstack Developer" />
@@ -115,7 +126,10 @@ onMounted(() => {
       <div class="lg:col-span-8 space-y-8">
         <UCard>
           <template #header>
-            <h3 class="font-bold">General Information</h3>
+            <h3 class="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <UIcon name="i-heroicons-information-circle" class="text-indigo-500 w-5 h-5" />
+              General Information
+            </h3>
           </template>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <UFormField label="Full Name" class="md:col-span-1">
@@ -132,7 +146,10 @@ onMounted(() => {
 
         <UCard>
           <template #header>
-            <h3 class="font-bold">Social & Contact Presence</h3>
+            <h3 class="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <UIcon name="i-heroicons-at-symbol" class="text-indigo-500 w-5 h-5" />
+              Social &amp; Contact Presence
+            </h3>
           </template>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <UFormField label="Official Email">

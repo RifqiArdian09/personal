@@ -58,35 +58,45 @@ onMounted(() => {
 <template>
   <div class="space-y-8 pb-12">
     <!-- Welcome Header -->
-    <div class="bg-gradient-to-r from-teal-600 to-teal-400 rounded-2xl p-8 text-white shadow-xl shadow-teal-500/20 relative overflow-hidden">
-      <div class="relative z-10">
-        <h1 class="text-3xl font-bold">Good Day, Administrator!</h1>
-        <p class="mt-2 text-teal-50/80 max-w-lg">
-          Welcome back to your portfolio management dashboard. Here's a quick overview of your digital presence.
-        </p>
+    <div class="bg-gradient-to-br from-teal-600 via-teal-500 to-emerald-400 rounded-2xl p-8 text-white shadow-2xl shadow-teal-500/30 relative overflow-hidden">
+      <div class="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+        <div>
+          <p class="text-teal-100/80 text-sm font-medium uppercase tracking-widest mb-1">Portfolio CMS</p>
+          <h1 class="text-3xl font-bold">Good Day, Administrator! 👋</h1>
+          <p class="mt-2 text-teal-50/70 max-w-lg text-sm leading-relaxed">
+            Welcome back to your dashboard. Manage your portfolio content from one place.
+          </p>
+        </div>
+        <div class="flex gap-3 flex-wrap">
+          <UButton to="/admin/projects/new" variant="outline" color="white" size="sm" icon="i-heroicons-plus" class="rounded-xl backdrop-blur-sm bg-white/10 border-white/20 text-white hover:bg-white/20">New Project</UButton>
+          <UButton to="/admin/blog/new" variant="outline" color="white" size="sm" icon="i-heroicons-pencil-square" class="rounded-xl backdrop-blur-sm bg-white/10 border-white/20 text-white hover:bg-white/20">New Post</UButton>
+        </div>
       </div>
-      <!-- Decorative circles -->
-      <div class="absolute -right-8 -top-8 w-48 h-48 bg-white/10 rounded-full blur-2xl"></div>
+      <!-- Decorative elements -->
+      <div class="absolute -right-8 -top-8 w-48 h-48 bg-white/10 rounded-full blur-3xl"></div>
       <div class="absolute -right-16 -bottom-16 w-64 h-64 bg-teal-300/10 rounded-full blur-3xl"></div>
+      <div class="absolute left-1/2 bottom-0 w-32 h-32 bg-emerald-400/10 rounded-full blur-2xl"></div>
     </div>
 
     <!-- Quick Stats -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
       <UCard 
         v-for="stat in stats" 
         :key="stat.label"
-        :ui="{ body: 'p-6', rounded: 'rounded-2xl' }"
-        class="border-slate-200 dark:border-slate-800 hover:scale-[1.02] transition-transform duration-200"
+        :ui="{ body: 'p-5', rounded: 'rounded-2xl' }"
+        class="border-slate-200 dark:border-slate-800 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 overflow-hidden relative group"
       >
-        <div class="flex items-center gap-4">
-          <div :class="`p-3 bg-${stat.color}-500/10 rounded-xl`">
-            <UIcon :name="stat.icon" :class="`w-6 h-6 text-${stat.color}-500`" />
+        <div class="flex items-center gap-3">
+          <div :class="`shrink-0 p-2.5 bg-${stat.color}-500/10 rounded-xl group-hover:scale-110 transition-transform duration-200`">
+            <UIcon :name="stat.icon" :class="`w-5 h-5 text-${stat.color}-500`" />
           </div>
-          <div>
-            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">{{ stat.label }}</p>
-            <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ stat.value }}</p>
+          <div class="min-w-0">
+            <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider truncate">{{ stat.label }}</p>
+            <p class="text-2xl font-bold text-slate-900 dark:text-white leading-tight">{{ stat.value }}</p>
           </div>
         </div>
+        <!-- Bottom accent bar -->
+        <div :class="`absolute bottom-0 left-0 right-0 h-0.5 bg-${stat.color}-500/40 opacity-0 group-hover:opacity-100 transition-opacity`"></div>
       </UCard>
     </div>
 

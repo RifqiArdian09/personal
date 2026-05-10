@@ -136,18 +136,21 @@ onMounted(() => {
 
 <template>
   <div class="max-w-6xl mx-auto pb-24 space-y-8">
-    <!-- Header -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <!-- Page Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
       <div class="flex items-center gap-4">
         <UButton
           icon="i-heroicons-arrow-left"
-          variant="ghost"
+          variant="soft"
           color="neutral"
-          class="rounded-xl"
+          class="rounded-xl w-10 h-10 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-800"
           @click="router.back()"
         />
         <div>
-          <h1 class="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">{{ pageTitle }}</h1>
+          <h2 class="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <UIcon name="i-heroicons-briefcase" class="text-teal-500 w-6 h-6" />
+            {{ pageTitle }}
+          </h2>
           <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
             {{ isNew ? 'Showcase your latest work.' : `Editing: ${project.title || 'Project'}` }}
           </p>
@@ -158,7 +161,7 @@ onMounted(() => {
           variant="ghost"
           color="neutral"
           label="Cancel"
-          class="rounded-xl px-6"
+          class="rounded-xl px-6 hover:bg-slate-100 dark:hover:bg-slate-800"
           @click="router.back()"
         />
         <UButton
@@ -166,7 +169,7 @@ onMounted(() => {
           icon="i-heroicons-check"
           label="Save Project"
           :loading="saving"
-          class="rounded-xl px-8 shadow-xl shadow-primary-500/20"
+          class="rounded-xl px-8 shadow-lg shadow-primary-500/20 transition-transform hover:scale-105"
           @click="handleSave"
         />
       </div>
@@ -177,7 +180,10 @@ onMounted(() => {
       <div class="lg:col-span-8 space-y-8">
         <UCard>
           <template #header>
-            <h3 class="font-bold">Project Details</h3>
+            <h3 class="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <UIcon name="i-heroicons-document-text" class="text-teal-500 w-5 h-5" />
+              Project Details
+            </h3>
           </template>
           
           <div v-if="loading" class="space-y-6">
@@ -217,8 +223,11 @@ onMounted(() => {
         <UCard>
           <template #header>
             <div class="flex items-center justify-between">
-              <h3 class="font-bold">Technologies Used</h3>
-              <UButton icon="i-heroicons-plus" size="xs" color="primary" variant="soft" label="Add Tech" @click="addTechTag" />
+              <h3 class="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <UIcon name="i-heroicons-cpu-chip" class="text-teal-500 w-5 h-5" />
+                Technologies Used
+              </h3>
+              <UButton icon="i-heroicons-plus" size="xs" color="primary" variant="soft" label="Add Tech" class="rounded-lg" @click="addTechTag" />
             </div>
           </template>
           <div class="space-y-3">
@@ -235,8 +244,11 @@ onMounted(() => {
         <UCard>
           <template #header>
             <div class="flex items-center justify-between">
-              <h3 class="font-bold">Project Gallery</h3>
-              <UButton icon="i-heroicons-plus" size="xs" color="primary" variant="soft" label="Add Image" @click="addProjectImage" />
+              <h3 class="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <UIcon name="i-heroicons-photo" class="text-teal-500 w-5 h-5" />
+                Project Gallery
+              </h3>
+              <UButton icon="i-heroicons-plus" size="xs" color="primary" variant="soft" label="Add Image" class="rounded-lg" @click="addProjectImage" />
             </div>
           </template>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -264,7 +276,10 @@ onMounted(() => {
       <div class="lg:col-span-4 space-y-8">
         <UCard>
           <template #header>
-            <h3 class="font-bold">Project Metadata</h3>
+            <h3 class="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <UIcon name="i-heroicons-adjustments-horizontal" class="text-teal-500 w-5 h-5" />
+              Project Metadata
+            </h3>
           </template>
           <div class="space-y-6">
             <UFormField label="Status">
@@ -293,7 +308,10 @@ onMounted(() => {
 
         <UCard>
           <template #header>
-            <h3 class="font-bold">Project Thumbnail</h3>
+            <h3 class="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <UIcon name="i-heroicons-photo" class="text-teal-500 w-5 h-5" />
+              Project Thumbnail
+            </h3>
           </template>
           <div class="space-y-4">
             <ImageUpload
@@ -310,8 +328,11 @@ onMounted(() => {
         <UCard>
           <template #header>
             <div class="flex items-center justify-between">
-              <h3 class="font-bold">Team Members</h3>
-              <UButton icon="i-heroicons-plus" size="xs" color="neutral" variant="ghost" @click="addTeamMember" />
+              <h3 class="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <UIcon name="i-heroicons-users" class="text-teal-500 w-5 h-5" />
+                Team Members
+              </h3>
+              <UButton icon="i-heroicons-plus" size="xs" color="neutral" variant="ghost" class="rounded-lg" @click="addTeamMember" />
             </div>
           </template>
           <div class="space-y-4">

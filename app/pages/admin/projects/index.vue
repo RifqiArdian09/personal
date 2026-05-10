@@ -80,14 +80,25 @@ const columns = [
 
 <template>
   <div class="space-y-6">
-    <div class="flex justify-between items-center">
-      <h2 class="text-xl font-bold">Manage Projects</h2>
+    <!-- Page Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+      <div>
+        <h2 class="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+          <UIcon name="i-heroicons-briefcase" class="text-teal-500 w-6 h-6" />
+          Manage Projects
+        </h2>
+        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
+          Organize and showcase your portfolio works.
+        </p>
+      </div>
       <UButton
         to="/admin/projects/new"
         color="primary"
         icon="i-heroicons-plus"
+        size="lg"
+        class="rounded-xl px-5 shadow-lg shadow-teal-500/20 transition-transform hover:scale-105"
       >
-        Add Project
+        Add New Project
       </UButton>
     </div>
 
@@ -99,6 +110,17 @@ const columns = [
           :loading="loading"
           class="w-full"
         >
+          <template #empty>
+            <div class="flex flex-col items-center justify-center py-16 text-center">
+              <div class="w-16 h-16 bg-slate-50 dark:bg-slate-800 rounded-full flex items-center justify-center mb-4 border border-slate-100 dark:border-slate-700 shadow-sm">
+                <UIcon name="i-heroicons-briefcase" class="w-8 h-8 text-slate-400" />
+              </div>
+              <p class="text-base font-semibold text-slate-900 dark:text-white">No projects found</p>
+              <p class="text-sm text-slate-500 mt-1 max-w-sm">Get started by creating your first project to showcase your work.</p>
+              <UButton to="/admin/projects/new" color="primary" variant="soft" icon="i-heroicons-plus" class="mt-4 rounded-xl">Add Project</UButton>
+            </div>
+          </template>
+
           <template #thumbnail_url-cell="{ row }">
             <img v-if="row.original.thumbnail_url" :src="row.original.thumbnail_url" class="w-16 h-10 object-cover rounded" :alt="row.original.title" />
             <div v-else class="w-16 h-10 bg-slate-100 dark:bg-slate-800 rounded flex items-center justify-center">

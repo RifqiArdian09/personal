@@ -86,18 +86,21 @@ const onUpdateJson = (json: any) => {
 
 <template>
   <div class="max-w-6xl mx-auto pb-24 space-y-8">
-    <!-- Header -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <!-- Page Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
       <div class="flex items-center gap-4">
         <UButton
           icon="i-heroicons-arrow-left"
-          variant="ghost"
+          variant="soft"
           color="neutral"
-          class="rounded-xl"
+          class="rounded-xl w-10 h-10 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-800"
           @click="router.back()"
         />
         <div>
-          <h1 class="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">{{ pageTitle }}</h1>
+          <h2 class="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <UIcon name="i-heroicons-document-text" class="text-blue-500 w-6 h-6" />
+            {{ pageTitle }}
+          </h2>
           <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
             {{ isNew ? 'Compose a new article for your readers.' : `Editing: ${post.title || 'Untitled'}` }}
           </p>
@@ -108,7 +111,7 @@ const onUpdateJson = (json: any) => {
           variant="ghost"
           color="neutral"
           label="Cancel"
-          class="rounded-xl px-6"
+          class="rounded-xl px-6 hover:bg-slate-100 dark:hover:bg-slate-800"
           @click="router.back()"
         />
         <UButton
@@ -116,7 +119,7 @@ const onUpdateJson = (json: any) => {
           icon="i-heroicons-check"
           label="Save Post"
           :loading="saving"
-          class="rounded-xl px-8 shadow-xl shadow-primary-500/20"
+          class="rounded-xl px-8 shadow-lg shadow-primary-500/20 transition-transform hover:scale-105"
           @click="handleSave"
         />
       </div>
@@ -127,7 +130,10 @@ const onUpdateJson = (json: any) => {
       <div class="lg:col-span-8 space-y-8">
         <UCard>
           <template #header>
-            <h3 class="font-bold">Content & Body</h3>
+            <h3 class="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <UIcon name="i-heroicons-pencil-square" class="text-blue-500 w-5 h-5" />
+              Content & Body
+            </h3>
           </template>
           
           <div v-if="loading" class="space-y-6">
@@ -158,7 +164,10 @@ const onUpdateJson = (json: any) => {
       <div class="lg:col-span-4 space-y-8">
         <UCard>
           <template #header>
-            <h3 class="font-bold">Publishing Settings</h3>
+            <h3 class="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <UIcon name="i-heroicons-cog-6-tooth" class="text-blue-500 w-5 h-5" />
+              Publishing Settings
+            </h3>
           </template>
           
           <div class="space-y-6">
