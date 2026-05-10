@@ -137,17 +137,40 @@ const columns = [
     <!-- Delete Confirmation Modal -->
     <UModal v-model:open="isDeleteModalOpen">
       <template #content>
-        <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
-          <template #header>
-            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Confirm Deletion</h3>
-          </template>
-          <div class="py-4">
-            <p class="text-slate-500 dark:text-slate-400">Are you sure you want to delete this post? This action cannot be undone.</p>
+        <UCard :ui="{ 
+          ring: '', 
+          divide: 'divide-y divide-gray-100 dark:divide-gray-800',
+          body: { padding: 'p-5 sm:p-6' },
+          footer: { padding: 'p-4 sm:px-6', background: 'bg-slate-50 dark:bg-slate-800/50' }
+        }">
+          <div class="flex items-start gap-4">
+            <div class="flex-shrink-0 w-12 h-12 rounded-full bg-red-50 dark:bg-red-900/20 flex items-center justify-center">
+              <UIcon name="i-heroicons-exclamation-triangle" class="w-7 h-7 text-red-600 dark:text-red-400" />
+            </div>
+            <div class="flex-1">
+              <h3 class="text-xl font-bold text-slate-900 dark:text-white">Hapus Postingan?</h3>
+              <p class="text-sm text-slate-500 dark:text-slate-400 mt-2 leading-relaxed">
+                Apakah Anda yakin ingin menghapus postingan blog ini? Postingan yang dihapus tidak dapat dikembalikan lagi.
+              </p>
+            </div>
           </div>
+
           <template #footer>
             <div class="flex justify-end gap-3">
-              <UButton variant="ghost" color="neutral" @click="isDeleteModalOpen = false">Cancel</UButton>
-              <UButton color="error" @click="deletePost">Delete</UButton>
+              <UButton 
+                variant="ghost" 
+                color="neutral" 
+                label="Batal"
+                class="rounded-xl px-5"
+                @click="isDeleteModalOpen = false" 
+              />
+              <UButton 
+                color="error" 
+                label="Hapus Permanen"
+                icon="i-heroicons-trash"
+                class="rounded-xl px-5 shadow-lg shadow-red-500/20"
+                @click="deletePost" 
+              />
             </div>
           </template>
         </UCard>

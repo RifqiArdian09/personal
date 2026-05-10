@@ -130,6 +130,9 @@ create policy "Public can read project_images"
 create policy "Public can read certificates"
   on certificates for select using (true);
 
+create policy "Public can read blog_posts"
+  on blog_posts for select using (true);
+
 -- ADMIN: Hanya user yang login boleh write (insert/update/delete)
 create policy "Admin can manage profile"
   on profile for all using (auth.role() = 'authenticated');
@@ -151,6 +154,9 @@ create policy "Admin can manage project_images"
 
 create policy "Admin can manage certificates"
   on certificates for all using (auth.role() = 'authenticated');
+
+create policy "Admin can manage blog_posts"
+  on blog_posts for all using (auth.role() = 'authenticated');
 
 -- ============================================================
 -- STORAGE BUCKETS

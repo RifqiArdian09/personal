@@ -282,17 +282,40 @@ const pageTitle = computed(() => {
     <!-- Logout Confirmation Modal -->
     <UModal v-model:open="isLogoutModalOpen">
       <template #content>
-        <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
-          <template #header>
-            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Confirm Logout</h3>
-          </template>
-          <div class="py-4">
-            <p class="text-slate-500 dark:text-slate-400">Are you sure you want to log out of the admin panel?</p>
+        <UCard :ui="{ 
+          ring: '', 
+          divide: 'divide-y divide-gray-100 dark:divide-gray-800',
+          body: { padding: 'p-5 sm:p-6' },
+          footer: { padding: 'p-4 sm:px-6', background: 'bg-slate-50 dark:bg-slate-800/50' }
+        }">
+          <div class="flex items-start gap-4">
+            <div class="flex-shrink-0 w-12 h-12 rounded-full bg-teal-50 dark:bg-teal-900/20 flex items-center justify-center">
+              <UIcon name="i-heroicons-arrow-left-on-rectangle" class="w-7 h-7 text-teal-600 dark:text-teal-400" />
+            </div>
+            <div class="flex-1">
+              <h3 class="text-xl font-bold text-slate-900 dark:text-white">Keluar dari Admin?</h3>
+              <p class="text-sm text-slate-500 dark:text-slate-400 mt-2 leading-relaxed">
+                Anda akan keluar dari sesi administrasi. Anda perlu login kembali untuk mengakses panel ini.
+              </p>
+            </div>
           </div>
+
           <template #footer>
             <div class="flex justify-end gap-3">
-              <UButton variant="ghost" color="neutral" @click="isLogoutModalOpen = false">Cancel</UButton>
-              <UButton color="error" @click="handleLogout">Log Out</UButton>
+              <UButton 
+                variant="ghost" 
+                color="neutral" 
+                label="Batal"
+                class="rounded-xl px-5"
+                @click="isLogoutModalOpen = false" 
+              />
+              <UButton 
+                color="primary" 
+                label="Ya, Keluar"
+                icon="i-heroicons-check"
+                class="rounded-xl px-5 shadow-lg shadow-teal-500/20"
+                @click="handleLogout" 
+              />
             </div>
           </template>
         </UCard>

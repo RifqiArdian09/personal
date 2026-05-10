@@ -19,7 +19,7 @@ const post = ref({
   title: '',
   slug: '',
   excerpt: '',
-  content_html: '',
+  content: '',
   content_json: null as any,
   cover_url: '',
   published: false,
@@ -57,7 +57,10 @@ const handleSave = async () => {
       post.value.published_at = new Date().toISOString()
     }
 
-    const payload = isNew ? post.value : { ...post.value, id }
+    const payload: any = isNew ? { ...post.value } : { ...post.value, id }
+    delete payload.content_json
+
+
     const { error } = await supabase
       .from('blog_posts')
       .upsert(payload)
@@ -142,7 +145,7 @@ const onUpdateJson = (json: any) => {
 
             <UFormField label="Article Body" required>
               <TiptapEditor 
-                v-model="post.content_html" 
+                v-model="post.content" 
                 placeholder="Write your thoughts here..." 
                 @update:json="onUpdateJson" 
               />
