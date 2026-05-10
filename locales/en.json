@@ -1,0 +1,20 @@
+{
+  "admin": {
+    "login": "Login",
+    "email": "Email",
+    "password": "Password",
+    "signin": "Sign In",
+    "profile": "Profile",
+    "tech_stack": "Tech Stack",
+    "projects": "Projects",
+    "certificates": "Certificates",
+    "blog": "Blog",
+    "settings": "Settings",
+    "logout": "Logout",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add New"
+  }
+}

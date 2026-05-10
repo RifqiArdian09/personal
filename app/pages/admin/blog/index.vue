@@ -1,0 +1,157 @@
+<script setup lang="ts">
+definePageMeta({
+  layout: 'admin'
+})
+
+const supabase = useSupabaseClient()
+const toast = useToast()
+
+const loading = ref(false)
+const posts = ref<any[]>([])
+
+const fetchPosts = async () => {
+  try {
+    loading.value = true
+    const { data, error } = await supabase
+      .from('blog_posts')
+      .select('*')
+      .order('created_at', { ascending: false })
+    
+    if (error) throw error
+    posts.value = data || []
+  } catch (e: any) {
+    toast.add({ title: 'Error fetching posts', description: e.message, color: 'error' })
+  } finally {
+    loading.value = false
+  }
+}
+
+const isDeleteModalOpen = ref(false)
+const postToDelete = ref<string | null>(null)
+
+const confirmDelete = (id: string) => {
+  postToDelete.value = id
+  isDeleteModalOpen.value = true
+}
+
+const deletePost = async () => {
+  if (!postToDelete.value) return
+  try {
+    const { error } = await supabase
+      .from('blog_posts')
+      .delete()
+      .eq('id', postToDelete.value)
+    if (error) throw error
+    toast.add({ title: 'Post deleted', color: 'success', icon: 'i-heroicons-check-circle' })
+    fetchPosts()
+  } catch (e: any) {
+    toast.add({ title: 'Error deleting post', description: e.message, color: 'error' })
+  } finally {
+    isDeleteModalOpen.value = false
+    postToDelete.value = null
+  }
+}
+
+onMounted(() => {
+  fetchPosts()
+})
+
+const page = ref(1)
+const itemsPerPage = 5
+
+const paginatedPosts = computed(() => {
+  if (!posts.value) return []
+  const start = (page.value - 1) * itemsPerPage
+  const end = start + itemsPerPage
+  return posts.value.slice(start, end)
+})
+
+const columns = [
+  { accessorKey: 'title', header: 'Title' },
+  { accessorKey: 'published', header: 'Status' },
+  { accessorKey: 'published_at', header: 'Published At' },
+  { accessorKey: 'actions', header: 'Actions' }
+]
+</script>
+
+<template>
+  <div class="space-y-6">
+    <div class="flex justify-between items-center">
+      <h2 class="text-xl font-bold text-slate-900 dark:text-white">Manage Blog Posts</h2>
+      <UButton
+        to="/admin/blog/new"
+        color="primary"
+        icon="i-heroicons-plus"
+        class="rounded-xl shadow-lg shadow-teal-500/20"
+      >
+        Write Post
+      </UButton>
+    </div>
+
+    <ClientOnly>
+      <UCard :ui="{ body: 'p-0', rounded: 'rounded-2xl' }" class="overflow-hidden border-slate-200 dark:border-slate-800">
+        <UTable
+          :data="paginatedPosts"
+          :columns="columns"
+          :loading="loading"
+          class="w-full"
+        >
+          <template #published-cell="{ row }">
+            <UBadge :color="row.original.published ? 'primary' : 'neutral'" variant="soft" class="rounded-lg">
+              {{ row.original.published ? 'Published' : 'Draft' }}
+            </UBadge>
+          </template>
+
+          <template #published_at-cell="{ row }">
+            <span v-if="row.original.published_at" class="text-sm">{{ new Date(row.original.published_at).toLocaleDateString() }}</span>
+            <span v-else class="text-slate-400">-</span>
+          </template>
+
+          <template #actions-cell="{ row }">
+            <div class="flex gap-2">
+              <UButton
+                variant="ghost"
+                color="neutral"
+                icon="i-heroicons-pencil-square"
+                :to="`/admin/blog/${row.original.id}`"
+                class="rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
+              />
+              <UButton
+                variant="ghost"
+                color="error"
+                icon="i-heroicons-trash"
+                @click="confirmDelete(row.original.id)"
+                class="rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20"
+              />
+            </div>
+          </template>
+        </UTable>
+        <template #footer>
+          <div class="flex justify-end p-4">
+            <UPagination v-model:page="page" :total="posts?.length || 0" :items-per-page="itemsPerPage" />
+          </div>
+        </template>
+      </UCard>
+    </ClientOnly>
+
+    <!-- Delete Confirmation Modal -->
+    <UModal v-model:open="isDeleteModalOpen">
+      <template #content>
+        <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
+          <template #header>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Confirm Deletion</h3>
+          </template>
+          <div class="py-4">
+            <p class="text-slate-500 dark:text-slate-400">Are you sure you want to delete this post? This action cannot be undone.</p>
+          </div>
+          <template #footer>
+            <div class="flex justify-end gap-3">
+              <UButton variant="ghost" color="neutral" @click="isDeleteModalOpen = false">Cancel</UButton>
+              <UButton color="error" @click="deletePost">Delete</UButton>
+            </div>
+          </template>
+        </UCard>
+      </template>
+    </UModal>
+  </div>
+</template>

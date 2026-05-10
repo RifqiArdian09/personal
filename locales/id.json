@@ -1,0 +1,20 @@
+{
+  "admin": {
+    "login": "Masuk",
+    "email": "Email",
+    "password": "Kata Sandi",
+    "signin": "Masuk",
+    "profile": "Profil",
+    "tech_stack": "Keahlian",
+    "projects": "Proyek",
+    "certificates": "Sertifikat",
+    "blog": "Blog",
+    "settings": "Pengaturan",
+    "logout": "Keluar",
+    "save": "Simpan",
+    "cancel": "Batal",
+    "delete": "Hapus",
+    "edit": "Ubah",
+    "add": "Tambah Baru"
+  }
+}
