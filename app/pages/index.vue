@@ -180,7 +180,7 @@ watch([projectPage, certPage, projects, certificates], () => {
         <div class="flex-1 text-center lg:text-left space-y-10">
           <div class="space-y-4">
             <p class="text-accent font-mono font-bold tracking-[0.2em] reveal-left uppercase flex items-center justify-center lg:justify-start gap-2">
-              // {{ $t('hero.greeting') }} ✨
+              // {{ $t('hero.greeting') }} <UIcon name="i-heroicons-sparkles" class="w-5 h-5 text-yellow-500 animate-pulse" />
             </p>
 
             <!-- Mobile Profile Image -->
