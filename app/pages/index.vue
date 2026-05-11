@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const supabase = useSupabaseClient<any>();
+const { locale } = useI18n();
 
 // Fetch Profile
 const { data: profile } = await useAsyncData("profile", async () => {
@@ -117,6 +118,31 @@ const selectedProject = ref<any>(null);
 const isCertModalOpen = ref(false);
 const selectedCert = ref<any>(null);
 
+// FAQ Logic
+const activeFaq = ref<number | null>(0);
+const faqs = computed(() => [
+  {
+    q: locale.value === 'id' ? 'Teknologi apa saja yang kamu kuasai?' : 'What tech stack do you use?',
+    a: locale.value === 'id' ? 'Saya fokus pada Fullstack Web Development menggunakan Nuxt 3, Vue.js, Tailwind CSS, Laravel, dan Supabase. Saya juga sedang mendalami Cyber Security dan IT Infrastructure.' : 'I focus on Fullstack Web Development using Nuxt 3, Vue.js, Tailwind CSS, Laravel, and Supabase. I am also exploring Cyber Security and IT Infrastructure.'
+  },
+  {
+    q: locale.value === 'id' ? 'Apakah kamu menerima proyek freelance?' : 'Do you accept freelance projects?',
+    a: locale.value === 'id' ? 'Ya! Saya selalu terbuka untuk kolaborasi menarik atau membantu mewujudkan ide startup Anda. Silakan hubungi saya melalui WhatsApp atau Email.' : 'Yes! I am always open to interesting collaborations or helping you realize your startup ideas. Please contact me via WhatsApp or Email.'
+  },
+  {
+    q: locale.value === 'id' ? 'Bagaimana cara menghubungi kamu?' : 'How can I contact you?',
+    a: locale.value === 'id' ? 'Anda bisa langsung mengklik tombol chat WhatsApp di pojok kiri bawah layar, atau mengirim email melalui tombol di bagian bawah halaman FAQ ini.' : 'You can directly click the WhatsApp chat button at the bottom left of the screen, or send an email through the button at the bottom of this FAQ section.'
+  },
+  {
+    q: locale.value === 'id' ? 'Dimana kamu belajar pemrograman?' : 'Where did you learn programming?',
+    a: locale.value === 'id' ? 'Saya adalah mahasiswa Rekayasa Perangkat Lunak dan juga banyak belajar secara otodidak melalui berbagai kursus online tersertifikasi seperti Dicoding dan platform lainnya.' : 'I am a Software Engineering student and also learned self-taught through various certified online courses like Dicoding and other platforms.'
+  }
+]);
+
+const toggleFaq = (idx: number) => {
+  activeFaq.value = activeFaq.value === idx ? null : idx;
+};
+
 const openProject = (project: any) => {
   selectedProject.value = project;
   isProjectModalOpen.value = true;
@@ -173,7 +199,7 @@ watch([projectPage, certPage, projects, certificates], () => {
       style="animation-delay: -2s"></div>
 
     <!-- ======================== HERO SECTION ======================== -->
-    <section id="home" class="min-h-screen relative flex items-center pt-24 pb-32 overflow-hidden bg-hero-pattern">
+    <section id="home" class="min-h-screen relative flex items-center pt-36 lg:pt-24 pb-32 overflow-hidden bg-hero-pattern">
       <div
         class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center gap-16 lg:gap-24 relative z-10">
         <!-- Left Text Content -->
@@ -202,14 +228,15 @@ watch([projectPage, certPage, projects, certificates], () => {
                   class="absolute -bottom-2 -right-2 z-30 w-[160px] manga-card bg-[#0f172a] border-[2px] border-manga-border shadow-[6px_6px_0px_rgba(0,0,0,0.2)] overflow-hidden animate-float-alt"
                   style="animation-delay: -1.5s">
                   <div class="px-3 py-1.5 bg-[#1e293b] border-b-[2px] border-manga-border flex items-center gap-1">
-                    <div class="w-2 h-2 rounded-full bg-red-500"></div>
-                    <div class="w-2 h-2 rounded-full bg-yellow-500"></div>
-                    <div class="w-2 h-2 rounded-full bg-green-500"></div>
+                    <div class="w-2 h-2 rounded-full bg-red-500 border border-black/10"></div>
+                    <div class="w-2 h-2 rounded-full bg-yellow-500 border border-black/10"></div>
+                    <div class="w-2 h-2 rounded-full bg-green-500 border border-black/10"></div>
                   </div>
                   <div class="p-3 font-mono text-[9px] leading-relaxed text-left">
-                    <p class="text-purple-400">const <span class="text-blue-400">rifqi</span> = {</p>
-                    <p class="pl-3 text-emerald-400">status: <span class="text-amber-400">'coding'</span></p>
-                    <p class="text-purple-400">};</p>
+                    <p class="text-[#2dd4bf]">const <span class="text-[#60a5fa]">rifqi</span> = {</p>
+                    <p class="pl-3 text-[#60a5fa]">role: <span class="text-[#fbbf24]">'developer'</span>,</p>
+                    <p class="pl-3 text-[#60a5fa]">passion: <span class="text-[#fbbf24]">'creating'</span></p>
+                    <p class="text-[#2dd4bf]">};</p>
                   </div>
                 </div>
                </div>
@@ -292,30 +319,29 @@ watch([projectPage, certPage, projects, certificates], () => {
               class="absolute -bottom-4 -right-4 sm:-right-8 z-30 w-[200px] sm:w-[280px] manga-card bg-[#0f172a] border-[3px] border-manga-border shadow-[10px_10px_0px_rgba(0,0,0,0.2)] overflow-hidden animate-float-alt"
               style="animation-delay: -1.5s">
               <div class="px-4 py-2.5 bg-[#1e293b] border-b-[2.5px] border-manga-border flex items-center gap-1.5">
-                <div class="w-2.5 h-2.5 rounded-full bg-red-500 border border-black/20"></div>
-                <div class="w-2.5 h-2.5 rounded-full bg-yellow-500 border border-black/20"></div>
-                <div class="w-2.5 h-2.5 rounded-full bg-green-500 border border-black/20"></div>
+                <div class="w-2.5 h-2.5 rounded-full bg-red-500 border border-black/10"></div>
+                <div class="w-2.5 h-2.5 rounded-full bg-yellow-500 border border-black/10"></div>
+                <div class="w-2.5 h-2.5 rounded-full bg-green-500 border border-black/10"></div>
               </div>
               <div class="p-6 font-mono text-[12px] leading-relaxed">
-                <p class="text-purple-400">
+                <p class="text-[#2dd4bf]">
                   const
-                  <span class="text-blue-400">{{
+                  <span class="text-[#60a5fa]">{{
                     profile?.name?.split(" ")[0].toLowerCase() || "rifqi"
                     }}</span>
                   = {
                 </p>
                 <div class="pl-5 space-y-0.5">
                   <p>
-                    <span class="text-blue-300">role</span>:
-                    <span class="text-green-400">"developer"</span>,
+                    <span class="text-[#60a5fa]">role</span>:
+                    <span class="text-[#fbbf24]">"developer"</span>,
                   </p>
                   <p>
-                    <span class="text-blue-300">passion</span>:
-                    <span class="text-green-400">"creating"</span>,
+                    <span class="text-[#60a5fa]">passion</span>:
+                    <span class="text-[#fbbf24]">"creating"</span>
                   </p>
-                 
                 </div>
-                <p class="text-purple-400">};</p>
+                <p class="text-[#2dd4bf]">};</p>
               </div>
             </div>
           </div>
@@ -324,7 +350,17 @@ watch([projectPage, certPage, projects, certificates], () => {
     </section>
 
     <!-- ======================== ABOUT ======================== -->
-    <section id="about" class="py-32 bg-surface scroll-mt-20 relative">
+    <section id="about" class="py-32 bg-surface scroll-mt-20 relative overflow-hidden">
+      <!-- Floating Abstract Balls -->
+      <div class="absolute top-20 -right-10 w-32 h-32 rounded-full border-4 border-manga-border bg-accent/20 shadow-[8px_8px_0px_var(--color-manga-border)] animate-float pointer-events-none z-0"></div>
+      <div class="absolute bottom-40 -left-12 w-48 h-48 rounded-full border-4 border-manga-border bg-blue-500/10 shadow-[10px_10px_0px_var(--color-manga-border)] animate-float-alt pointer-events-none z-0"></div>
+      <div class="absolute top-1/2 left-1/4 w-12 h-12 rounded-full border-2 border-manga-border bg-yellow-500/20 shadow-[4px_4px_0px_var(--color-manga-border)] animate-pulse pointer-events-none z-0"></div>
+      <div class="absolute top-1/3 right-1/4 w-16 h-16 rounded-full border-2 border-manga-border bg-accent/5 animate-float pointer-events-none z-0" style="animation-delay: -3s"></div>
+      <div class="absolute bottom-10 right-1/2 w-8 h-8 rounded-full border-2 border-manga-border bg-blue-500/20 animate-float-alt pointer-events-none z-0"></div>
+      <div class="absolute top-10 left-1/3 w-6 h-6 rounded-full bg-accent/30 animate-pulse pointer-events-none z-0"></div>
+      
+      
+      
       <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
           <!-- Left Content -->
@@ -403,44 +439,44 @@ watch([projectPage, certPage, projects, certificates], () => {
               <!-- Code Content -->
               <div class="p-8 md:p-10 font-mono text-sm md:text-base leading-relaxed overflow-x-auto">
                 <div class="space-y-1">
-                  <p class="text-white opacity-40">{</p>
+                  <p class="text-slate-500 font-bold">{</p>
                   <div class="pl-6 space-y-1">
                     <p>
-                      <span class="text-blue-400">"name"</span>:
-                      <span class="text-green-400">"{{ profile?.name || "Rifqi Ardian" }}"</span>,
+                      <span class="text-[#60a5fa]">"name"</span>:
+                      <span class="text-[#fbbf24]">"{{ profile?.name || "Rifqi Ardian" }}"</span>,
                     </p>
                     <p>
-                      <span class="text-blue-400">"role"</span>:
-                      <span class="text-green-400">"Student & Developer"</span>,
+                      <span class="text-[#60a5fa]">"role"</span>:
+                      <span class="text-[#fbbf24]">"Student & Developer"</span>,
                     </p>
                     <p>
-                      <span class="text-blue-400">"location"</span>:
-                      <span class="text-green-400">"{{ profile?.location || "Indonesia" }}"</span>,
+                      <span class="text-[#60a5fa]">"location"</span>:
+                      <span class="text-[#fbbf24]">"{{ profile?.location || "Indonesia" }}"</span>,
                     </p>
-                    <p><span class="text-blue-400">"skills"</span>: [</p>
+                    <p><span class="text-[#60a5fa]">"skills"</span>: [</p>
                     <div class="pl-6">
                       <p>
-                        <span class="text-green-400">"Fullstack Developer"</span>,
+                        <span class="text-[#fbbf24]">"Fullstack Developer"</span>,
                       </p>
                       <p>
-                        <span class="text-green-400">"Software Engineering Student"</span>,
+                        <span class="text-[#fbbf24]">"Software Engineering Student"</span>,
                       </p>
                       <p>
-                        <span class="text-green-400">"Cyber Security Learner"</span>
+                        <span class="text-[#fbbf24]">"Cyber Security Learner"</span>
                       </p>
                     </div>
                     <p>],</p>
                     <p>
-                      <span class="text-blue-400">"currentFocus"</span>:
-                      <span class="text-green-400">"Building scalable web & mobile applications"</span>,
+                      <span class="text-[#60a5fa]">"currentFocus"</span>:
+                      <span class="text-[#fbbf24]">"Building scalable web & mobile applications"</span>,
                     </p>
                     <p>
-                      <span class="text-blue-400">"funFact"</span>:
-                      <span class="text-green-400">"I enjoy turning startup ideas into real
+                      <span class="text-[#60a5fa]">"funFact"</span>:
+                      <span class="text-[#fbbf24]">"I enjoy turning startup ideas into real
                         products"</span>
                     </p>
                   </div>
-                  <p class="text-white opacity-40">}</p>
+                  <p class="text-slate-500 font-bold">}</p>
                 </div>
               </div>
             </div>
@@ -679,7 +715,16 @@ watch([projectPage, certPage, projects, certificates], () => {
     </section>
 
     <!-- ======================== CERTIFICATES ======================== -->
-    <section id="certificates" class="pt-48 pb-32 bg-surface-alt scroll-mt-20 relative manga-divider-top">
+    <section id="certificates" class="py-32 bg-surface scroll-mt-20 relative overflow-hidden">
+      <!-- Floating Abstract Balls -->
+      <div class="absolute top-10 left-10 w-24 h-24 rounded-full border-4 border-manga-border bg-accent/10 shadow-[6px_6px_0px_var(--color-manga-border)] animate-float-alt pointer-events-none z-0"></div>
+      <div class="absolute bottom-20 right-0 w-40 h-40 rounded-full border-4 border-manga-border bg-blue-500/10 shadow-[12px_12px_0px_var(--color-manga-border)] animate-float pointer-events-none z-0"></div>
+      <div class="absolute top-1/2 right-20 w-14 h-14 rounded-full border-2 border-manga-border bg-accent/5 animate-pulse pointer-events-none z-0"></div>
+      <div class="absolute bottom-10 left-1/4 w-10 h-10 rounded-full border-2 border-manga-border bg-yellow-500/10 animate-float pointer-events-none z-0"></div>
+      <div class="absolute top-1/4 left-1/2 w-6 h-6 rounded-full bg-blue-500/20 animate-float-alt pointer-events-none z-0"></div>
+      
+      
+      
       <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="flex flex-col items-center mb-24 reveal-scale">
           <span
@@ -777,7 +822,7 @@ watch([projectPage, certPage, projects, certificates], () => {
     </section>
 
     <!-- ======================== BLOG ======================== -->
-    <section id="blog" class="py-32 scroll-mt-20">
+    <section id="blog" class="py-32 scroll-mt-20 bg-hero-pattern relative">
       <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col items-center mb-24 reveal-scale">
           <span
@@ -834,121 +879,68 @@ watch([projectPage, certPage, projects, certificates], () => {
           </NuxtLink>
         </div>
 
-        <div class="text-center mt-20 reveal-scale">
+        <div class="flex justify-center mt-12 reveal-scale">
           <NuxtLink to="/blog"
-            class="btn-magnetic inline-flex items-center gap-3 px-10 py-5 bg-surface font-bold rounded-2xl border-2 border-manga-border shadow-[5px_5px_0px_var(--color-manga-border)] hover:translate-y-[-2px] hover:shadow-[8px_8px_0px_var(--color-manga-border)] hover:text-accent transition-all font-display text-text-primary">
-            Explore All Posts
-            <UIcon name="i-heroicons-document-magnifying-glass" class="w-6 h-6" />
+            class="btn-magnetic inline-flex items-center gap-2.5 px-6 py-3 bg-surface text-sm font-bold rounded-xl border-2 border-manga-border shadow-[4px_4px_0px_var(--color-manga-border)] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_var(--color-manga-border)] hover:text-accent transition-all font-display text-text-primary">
+            {{ locale === 'id' ? 'Lihat Semua Artikel' : 'Explore All Posts' }}
+            <UIcon name="i-heroicons-arrow-right" class="w-5 h-5" />
           </NuxtLink>
         </div>
       </div>
     </section>
 
-    <!-- ======================== CONTACT ======================== -->
-    <section id="contact" class="pt-48 pb-32 bg-surface-alt scroll-mt-20 relative manga-divider-top">
-      <div class="max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-        <div class="reveal-scale mb-20">
+    <!-- ======================== FAQ ======================== -->
+    <section id="faq" class="py-32 bg-surface scroll-mt-20 relative overflow-hidden">
+      <!-- Floating Abstract Balls -->
+      <div class="absolute top-1/2 -left-10 w-28 h-28 rounded-full border-4 border-manga-border bg-accent/15 shadow-[8px_8px_0px_var(--color-manga-border)] animate-float pointer-events-none z-0"></div>
+      <div class="absolute top-20 right-20 w-16 h-16 rounded-full border-2 border-manga-border bg-blue-500/10 shadow-[4px_4px_0px_var(--color-manga-border)] animate-float-alt pointer-events-none z-0"></div>
+      <div class="absolute bottom-10 right-1/3 w-20 h-20 rounded-full border-2 border-manga-border bg-accent/5 animate-float pointer-events-none z-0"></div>
+      <div class="absolute top-10 left-1/4 w-8 h-8 rounded-full bg-yellow-500/20 animate-pulse pointer-events-none z-0"></div>
+      <div class="absolute bottom-1/4 left-1/3 w-6 h-6 rounded-full bg-accent/30 animate-float-alt pointer-events-none z-0"></div>
+      
+      
+      
+      <div class="max-w-[900px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="flex flex-col items-center mb-20 reveal-scale">
           <span
             class="manga-badge mb-6 py-2 px-6 font-bold tracking-widest uppercase bg-accent text-white border-manga-border">
-            {{ $t('contact.badge') }}
+            {{ locale === 'id' ? '05. PERTANYAAN' : '05. QUESTIONS' }}
           </span>
-          <h2 class="section-heading text-4xl md:text-6xl">
-            Let's Create <br />
-            <span class="gradient-text">Something Great</span>
+          <h2 class="section-heading text-4xl md:text-5xl text-center">
+            Frequently Asked <span class="text-accent">Questions</span>
           </h2>
-          <p class="mt-6 text-text-secondary max-w-xl mx-auto font-medium text-lg">
-            {{ $t('contact.subtitle') }}
+          <p class="mt-4 text-text-secondary text-center max-w-2xl font-medium">
+            {{ locale === 'id' ? 'Beberapa hal yang sering ditanyakan tentang saya dan layanan saya.' : 'Some common questions about me and my services.' }}
           </p>
         </div>
 
-        <div class="grid md:grid-cols-2 gap-8 lg:gap-12 text-left items-stretch">
-          <div class="manga-card p-6 md:p-12 space-y-8 md:space-y-10 reveal-left bg-surface">
-            <h3 class="font-display font-extrabold text-3xl">
-              Contact Details
-            </h3>
-            <div class="space-y-6 md:space-y-8">
-              <div class="flex items-center gap-4 md:gap-6 group">
-                <div
-                  class="w-12 h-12 md:w-14 md:h-14 shrink-0 rounded-2xl bg-accent/10 border-2 border-manga-border flex items-center justify-center group-hover:bg-accent group-hover:text-white transition-all shadow-[4px_4px_0px_var(--color-manga-border)]">
-                  <UIcon name="i-heroicons-envelope" class="w-6 h-6 md:w-7 md:h-7" />
-                </div>
-                <a :href="`mailto:${profile?.email || 'ardianrifqi77@gmail.com'}`"
-                  class="text-base md:text-xl font-bold hover:text-accent transition-colors break-all">{{ profile?.email ||
-                  "ardianrifqi77@gmail.com" }}</a>
-              </div>
-              <div class="flex items-center gap-4 md:gap-6 group">
-                <div
-                  class="w-12 h-12 md:w-14 md:h-14 shrink-0 rounded-2xl bg-blue-500/10 border-2 border-manga-border flex items-center justify-center group-hover:bg-blue-500 group-hover:text-white transition-all shadow-[4px_4px_0px_var(--color-manga-border)]">
-                  <UIcon name="i-heroicons-map-pin" class="w-6 h-6 md:w-7 md:h-7" />
-                </div>
-                <span class="text-base md:text-xl font-bold">{{
-                  profile?.location || "Indonesia"
-                  }}</span>
-              </div>
-            </div>
-            <div class="pt-10 border-t border-divider">
-              <div class="flex flex-wrap gap-4">
-                <a v-for="social in [
-                  {
-                    name: 'GitHub',
-                    icon: 'i-simple-icons-github',
-                    url: profile?.github_url || '#',
-                  },
-                  {
-                    name: 'LinkedIn',
-                    icon: 'i-simple-icons-linkedin',
-                    url: profile?.linkedin_url || '#',
-                  },
-                  {
-                    name: 'Instagram',
-                    icon: 'i-simple-icons-instagram',
-                    url: profile?.instagram_url || '#',
-                  },
-                ]" :key="social.name" :href="social.url" target="_blank"
-                  class="w-12 h-12 rounded-xl border-2 border-manga-border flex items-center justify-center hover:bg-accent hover:text-white transition-all shadow-[3px_3px_0px_var(--color-manga-border)]">
-                  <UIcon :name="social.icon" class="w-6 h-6" />
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="manga-card p-6 md:p-10 reveal-right bg-surface border-manga-border flex flex-col space-y-6">
-            <h3 class="font-display font-black text-2xl text-text-primary">Get In Touch</h3>
-            
-            <div class="space-y-4">
-              <div class="space-y-2">
-                <label class="text-xs font-black uppercase tracking-widest text-text-secondary">Name</label>
-                <input 
-                  v-model="formName"
-                  type="text" 
-                  placeholder="Enter your name"
-                  class="w-full px-4 py-3 bg-surface-alt border-2 border-manga-border rounded-xl focus:border-accent outline-none transition-all font-medium"
-                />
-              </div>
-              
-              <div class="space-y-2">
-                <label class="text-xs font-black uppercase tracking-widest text-text-secondary">Message</label>
-                <textarea 
-                  v-model="formMessage"
-                  rows="4" 
-                  placeholder="Tell me about your project..."
-                  class="w-full px-4 py-3 bg-surface-alt border-2 border-manga-border rounded-xl focus:border-accent outline-none transition-all font-medium resize-none"
-                ></textarea>
-              </div>
-            </div>
-
+        <div class="space-y-4 mb-20">
+          <div v-for="(faq, idx) in faqs" :key="idx" 
+            class="manga-card overflow-hidden transition-all duration-500 bg-surface border-2"
+            :class="activeFaq === idx ? 'border-accent shadow-[8px_8px_0px_var(--color-accent-soft)]' : 'border-manga-border shadow-[4px_4px_0px_var(--color-manga-border)]'">
             <button 
-              @click="sendWhatsApp"
-              class="w-full py-4 bg-accent text-white font-black rounded-xl border-2 border-manga-border shadow-[4px_4px_0px_#000] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000] active:translate-y-0 active:shadow-none transition-all uppercase tracking-widest text-sm flex items-center justify-center gap-3"
-            >
-              Send to WhatsApp
-              <UIcon name="i-simple-icons-whatsapp" class="w-5 h-5" />
+              @click="toggleFaq(idx)"
+              class="w-full px-6 py-5 flex items-center justify-between text-left cursor-pointer group">
+              <span class="font-display font-black text-lg md:text-xl pr-8 transition-colors group-hover:text-accent">
+                {{ faq.q }}
+              </span>
+              <div class="w-10 h-10 shrink-0 rounded-xl border-2 border-manga-border flex items-center justify-center transition-all"
+                :class="activeFaq === idx ? 'bg-accent text-white border-accent rotate-180' : 'bg-surface-alt text-text-primary'">
+                <UIcon name="i-heroicons-chevron-down" class="w-6 h-6" />
+              </div>
             </button>
-
-            <p class="text-center text-text-secondary text-xs font-medium">
-              Response time: usually within 2-4 hours.
-            </p>
+            
+            <div 
+              class="transition-all duration-500 ease-in-out overflow-hidden"
+              :style="{ maxHeight: activeFaq === idx ? '300px' : '0' }">
+              <div class="px-6 pb-6 pt-2 text-text-secondary font-medium leading-relaxed md:text-lg border-t-2 border-divider/10 mt-2 mx-4">
+                {{ faq.a }}
+              </div>
+            </div>
           </div>
         </div>
+
+        
       </div>
     </section>
 

@@ -1,13 +1,6 @@
 <script setup lang="ts">
 const colorMode = useColorMode()
-const isDark = computed({
-  get () {
-    return colorMode.value === 'dark'
-  },
-  set () {
-    colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
-  }
-})
+colorMode.preference = 'light'
 
 const { locale, setLocale } = useI18n();
 
@@ -17,7 +10,7 @@ const links = computed(() => [
   { label: locale.value === 'id' ? 'Portofolio' : 'Portfolio', to: "/", hash: "#projects", icon: "i-heroicons-code-bracket-square" },
   { label: locale.value === 'id' ? 'Sertifikat' : 'Certificates', to: "/", hash: "#certificates", icon: "i-heroicons-trophy" },
   { label: locale.value === 'id' ? 'Blog' : 'Blog', to: "/", hash: "#blog", icon: "i-heroicons-document-text" },
-  { label: locale.value === 'id' ? 'Kontak' : 'Contact', to: "/", hash: "#contact", icon: "i-heroicons-envelope" },
+  { label: locale.value === 'id' ? 'Pertanyaan' : 'Questions', to: "/", hash: "#faq", icon: "i-heroicons-question-mark-circle" },
 ]);
 
 const toggleLocale = () => {
@@ -32,6 +25,19 @@ const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+// Fetch Profile for WhatsApp link
+const supabase = useSupabaseClient<any>();
+const { data: profile } = await useAsyncData('profile-layout', async () => {
+  const { data } = await supabase.from('profiles').select('*').single();
+  return data;
+});
+
+const openWhatsApp = () => {
+  const phone = profile.value?.phone || "6285182911840";
+  const text = encodeURIComponent("Halo Rifqi! Saya baru saja melihat portofolio Anda.");
+  window.open(`https://wa.me/${phone}?text=${text}`, "_blank");
+};
+
 onMounted(() => {
   window.addEventListener('scroll', () => {
     const scrollPos = window.scrollY || document.documentElement.scrollTop
@@ -44,7 +50,38 @@ onMounted(() => {
     const scrollBar = document.getElementById('scrollBar')
     if (scrollBar) scrollBar.style.width = scrolled_pct + '%'
   })
+
+  // Typewriter for WA Label
+  typeWaLabel();
 })
+
+const waLabelText = ref('');
+const waMessageIndex = ref(0);
+const typeWaLabel = () => {
+  const messages = locale.value === 'id' 
+    ? ['Tanya sesuatu?', 'Mau joki?', 'Kerja bareng?', 'Ada ide proyek?'] 
+    : ['Got questions?', 'Need a dev?', 'Let\'s collaborate!', 'Hire me?'];
+  
+  const fullText = messages[waMessageIndex.value % messages.length] || '';
+  let i = 0;
+  waLabelText.value = '';
+  
+  const typing = setInterval(() => {
+    if (i < fullText.length) {
+      waLabelText.value += fullText.charAt(i);
+      i++;
+    } else {
+      clearInterval(typing);
+      setTimeout(() => {
+        waMessageIndex.value++;
+        typeWaLabel();
+      }, 4000); // Wait 4s before next message
+    }
+  }, 80);
+};
+
+// Re-type when locale changes
+watch(locale, () => typeWaLabel());
 </script>
 
 <template>
@@ -54,10 +91,28 @@ onMounted(() => {
       <div class="scroll-progress-bar" id="scrollBar"></div>
     </div>
 
-    <!-- Back to Top Button -->
+    <!-- WhatsApp Chat Button (Right, Parallel with Back-to-Top) -->
+    <div class="fixed bottom-8 right-8 z-[10001] flex items-center gap-3 group animate-pop">
+      <!-- Label (Auto appearing with typing effect) -->
+      <span class="px-3 py-1 bg-surface border-2 border-manga-border rounded-lg text-[10px] font-black uppercase tracking-widest text-text-primary whitespace-nowrap shadow-[4px_4px_0px_var(--color-manga-border)] pointer-events-none relative flex items-center order-1">
+        {{ waLabelText }}<span class="ml-1 w-1 h-3 bg-accent animate-pulse"></span>
+      </span>
+
+      <button
+        @click="openWhatsApp"
+        class="w-12 h-12 rounded-full border-2 border-manga-border shadow-[4px_4px_0px_var(--color-manga-border)] bg-[#25D366] text-white flex items-center justify-center hover:-translate-y-1.5 hover:shadow-[6px_6px_0px_var(--color-manga-border)] transition-all cursor-pointer animate-glow-wa order-2"
+      >
+        <UIcon name="i-simple-icons-whatsapp" class="w-6 h-6 group-hover:rotate-12 transition-transform" />
+        
+        <!-- Glowing Ring Effect -->
+        <div class="absolute -inset-1 rounded-full bg-[#25D366]/40 blur-md -z-10 animate-pulse"></div>
+      </button>
+    </div>
+
+    <!-- Back to Top Button (Left) -->
     <button
       @click="scrollToTop"
-      class="fixed bottom-8 right-8 w-12 h-12 rounded-xl border-2 border-manga-border shadow-[4px_4px_0px_var(--color-manga-border)] bg-accent text-white flex items-center justify-center z-[10001] hover:-translate-y-1.5 hover:shadow-[6px_6px_0px_var(--color-manga-border)] transition-all cursor-pointer"
+      class="fixed bottom-8 left-8 w-12 h-12 rounded-xl border-2 border-manga-border shadow-[4px_4px_0px_var(--color-manga-border)] bg-accent text-white flex items-center justify-center z-[10001] hover:-translate-y-1.5 hover:shadow-[6px_6px_0px_var(--color-manga-border)] transition-all cursor-pointer"
       :class="showBackToTop ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-10 pointer-events-none'"
     >
       <UIcon name="i-heroicons-arrow-up" class="w-6 h-6" />
@@ -65,34 +120,35 @@ onMounted(() => {
 
     <!-- Navbar -->
     <header
-      class="fixed top-0 inset-x-0 z-[10000] transition-all duration-500"
-      :class="scrolled ? 'bg-surface/80 backdrop-blur-xl border-b-[3px] border-manga-border shadow-[0_4px_20px_rgba(0,0,0,0.1)]' : 'bg-transparent pt-6'"
+      class="fixed top-0 inset-x-0 z-[10000] transition-all duration-700"
+      :class="scrolled ? 'bg-surface/70 backdrop-blur-2xl border-b-[3px] border-manga-border shadow-[0_8px_30px_rgba(0,0,0,0.08)] py-3' : 'bg-transparent py-6'"
     >
       <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
         <!-- Logo -->
-        <NuxtLink to="/" class="flex items-center gap-3 group">
-      
-          <span class="font-black font-display text-lg sm:text-2xl tracking-tight">
-            Rifqi<span class="text-accent">.dev</span>
+        <NuxtLink to="/" class="flex items-center gap-3 group relative">
+          <div class="absolute -inset-2 bg-accent/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <span class="font-black font-display text-lg sm:text-2xl tracking-tighter relative z-10 flex items-center transition-transform group-hover:scale-105">
+           <span class="text-accent opacity-50 group-hover:opacity-100 transition-opacity mr-1">{</span>
+           <span>Rifqi</span><span class="text-accent">.dev</span>
+           <span class="text-accent opacity-50 group-hover:opacity-100 transition-opacity ml-1">}</span>
           </span>
         </NuxtLink>
 
         <!-- Desktop Nav -->
-        <nav class="hidden lg:flex items-center gap-2">
+        <nav class="hidden lg:flex items-center gap-1 bg-surface-alt/50 border-2 border-manga-border rounded-2xl p-1.5 shadow-[4px_4px_0px_var(--color-manga-border)]">
            <NuxtLink
             v-for="link in links"
             :key="link.label"
             :to="link.hash ? { path: link.to, hash: link.hash } : link.to"
-            class="group relative px-5 py-2 text-sm font-black font-display text-text-secondary hover:text-accent transition-all duration-300"
+            class="group relative px-5 py-2.5 text-sm font-black font-display text-text-secondary hover:text-accent transition-all duration-300"
             active-class="active-nav-link"
           >
             <div class="relative z-10 flex items-center gap-2">
-              <UIcon :name="link.icon" class="w-4 h-4 transition-transform group-hover:scale-110" />
+              <UIcon :name="link.icon" class="w-4 h-4 transition-all duration-500 group-hover:scale-125 group-hover:-rotate-6" />
               <span class="tracking-widest uppercase text-[10px]">{{ link.label }}</span>
             </div>
-            <!-- Hover/Active Background Pill -->
-            <div class="absolute inset-0 bg-accent/10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <div class="nav-active-pill absolute inset-0 bg-accent/10 rounded-xl hidden border-2 border-accent/20"></div>
+            <!-- Hover Effect Pill -->
+            <div class="absolute inset-0 bg-accent/10 rounded-xl opacity-0 group-hover:opacity-100 transition-all duration-300 scale-90 group-hover:scale-100"></div>
           </NuxtLink>
         </nav>
 
@@ -107,15 +163,7 @@ onMounted(() => {
             <span class="font-black font-mono text-[8px] uppercase mt-0.5">{{ locale === 'id' ? 'EN' : 'ID' }}</span>
           </button>
 
-          <ClientOnly>
-            <button
-              @click="isDark = !isDark"
-              class="w-12 h-12 rounded-xl border-2 border-manga-border shadow-[4px_4px_0px_var(--color-manga-border)] bg-surface flex items-center justify-center hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_var(--color-manga-border)] transition-all cursor-pointer active:translate-y-0 active:shadow-none"
-              aria-label="Toggle theme"
-            >
-              <UIcon :name="isDark ? 'i-heroicons-moon' : 'i-heroicons-sun'" class="w-5 h-5 text-accent" />
-            </button>
-          </ClientOnly>
+
 
         
 

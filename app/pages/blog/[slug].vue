@@ -35,7 +35,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="min-h-screen pt-28 pb-20">
+  <div class="min-h-screen pt-36 pb-20">
     <!-- Loading -->
     <div v-if="pending" class="max-w-[800px] mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
       <USkeleton class="h-10 w-3/4 rounded-lg" />

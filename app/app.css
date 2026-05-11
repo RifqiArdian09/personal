@@ -430,30 +430,6 @@ html.dark {
   border-color: rgba(255, 255, 255, 0.05);
 }
 
-/* Wavy Section Divider - Refined for both Desktop and Mobile */
-.manga-divider-top {
-  /* Default Mobile: Much shallower to avoid cutting content */
-  clip-path: polygon(0% 3%, 10% 2.5%, 20% 2%, 30% 2.2%, 40% 2.8%, 50% 3.5%, 60% 3.8%, 70% 3.5%, 80% 2.8%, 90% 2.2%, 100% 2.5%, 100% 100%, 0% 100%);
-  filter: drop-shadow(0 -3px 6px rgba(0,0,0,0.08));
-}
-
-@media (min-width: 1024px) {
-  .manga-divider-top {
-    clip-path: polygon(0% 8%, 5% 7.5%, 10% 6.5%, 15% 5.5%, 20% 5%, 25% 4.8%, 30% 5%, 35% 5.5%, 40% 6.5%, 45% 7.5%, 50% 8.5%, 55% 9.5%, 60% 10%, 65% 9.8%, 70% 9.2%, 75% 8.2%, 80% 7.2%, 85% 6.5%, 90% 5.8%, 95% 5.5%, 100% 5.8%, 100% 100%, 0% 100%);
-  }
-}
-
-.manga-divider-bottom {
-  /* Default Mobile */
-  clip-path: polygon(0% 0%, 100% 0%, 100% 97%, 90% 97.5%, 80% 98.2%, 70% 97.5%, 60% 96.5%, 50% 95.5%, 40% 96.5%, 30% 97.5%, 20% 98.2%, 10% 97.5%, 0% 97%);
-}
-
-@media (min-width: 1024px) {
-  .manga-divider-bottom {
-    clip-path: polygon(0% 0%, 100% 0%, 100% 85%, 95% 86%, 90% 88%, 85% 90%, 80% 92%, 75% 93%, 70% 93.5%, 65% 93%, 60% 91.5%, 55% 89.5%, 50% 87.5%, 45% 86%, 40% 85.5%, 35% 86%, 30% 87.5%, 25% 89.5%, 20% 91.5%, 15% 93%, 10% 93.5%, 5% 93%, 0% 91.5%);
-  }
-}
-
 /* Floating Elements */
 @keyframes float-alt {
   0%, 100% { transform: translate(0, 0) rotate(0deg); }
@@ -481,4 +457,203 @@ html.dark {
   mask-size: contain;
   mask-position: center;
   mask-repeat: no-repeat;
+}
+/* ===== Enhanced Code Snippet Theme (Manga/Pro) ===== */
+.prose pre {
+  @apply relative mt-8 mb-6 overflow-hidden rounded-xl border-[3px] border-manga-border shadow-[5px_5px_0px_var(--color-manga-border)] transition-all duration-300;
+  background-color: #0f172a !important; /* Deep Navy Dark */
+  padding: 0 !important;
+}
+
+/* Code Block Header (Visual Only via pseudo-elements) */
+.prose pre::before {
+  content: '';
+  display: block;
+  height: 32px;
+  width: 100%;
+  background: #1e293b;
+  border-bottom: 2px solid #334155;
+}
+
+/* Mock Mac Buttons */
+.prose pre::after {
+  content: '•••';
+  position: absolute;
+  top: 4px;
+  left: 12px;
+  font-size: 18px;
+  letter-spacing: 2px;
+  color: #64748b;
+  font-family: system-ui;
+  pointer-events: none;
+}
+
+.prose pre code {
+  @apply block p-6 overflow-x-auto text-[0.9rem] leading-relaxed;
+  color: #e2e8f0 !important;
+  font-family: var(--font-mono) !important;
+  background-color: transparent !important;
+  border: none !important;
+}
+
+/* Custom Scrollbar for Code Blocks */
+.prose pre code::-webkit-scrollbar {
+  height: 8px;
+}
+.prose pre code::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+.prose pre code::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 4px;
+}
+.prose pre code::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent);
+}
+
+/* Syntax Highlighting (Lowlight / HLJS) */
+.hljs-comment,
+.hljs-quote {
+  color: #64748b;
+  font-style: italic;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-addition {
+  color: #2dd4bf; /* Teal/Accent */
+}
+
+.hljs-number,
+.hljs-string,
+.hljs-meta .hljs-meta-string,
+.hljs-literal,
+.hljs-doctag,
+.hljs-regexp {
+  color: #fbbf24; /* Amber/Yellow */
+}
+
+.hljs-title,
+.hljs-section,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class {
+  color: #60a5fa; /* Blue */
+}
+
+.hljs-variable,
+.hljs-template-variable,
+.hljs-attribute,
+.hljs-tag {
+  color: #f472b6; /* Pink */
+}
+
+.hljs-attr {
+  color: #a78bfa; /* Violet */
+}
+
+.hljs-params,
+.hljs-property {
+  color: #e2e8f0;
+}
+
+.hljs-function {
+  color: #2dd4bf;
+}
+
+.hljs-type,
+.hljs-class {
+  color: #f87171; /* Red/Rose */
+}
+
+.hljs-bullet,
+.hljs-symbol,
+.hljs-meta,
+.hljs-link {
+  color: #10b981;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+.hljs-deletion {
+  color: #f87171;
+}
+
+/* Inline Code */
+.prose :not(pre) > code {
+  @apply px-1.5 py-0.5 rounded-md bg-accent/10 text-accent font-bold text-[0.85em] border border-accent/20;
+}
+.prose :not(pre) > code::before,
+.prose :not(pre) > code::after {
+  content: none !important;
+}
+
+/* ===== Premium Navigation Styles ===== */
+.active-nav-link {
+  @apply !text-accent;
+}
+
+/* Floating Nav Pill for Desktop */
+.active-nav-link::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--color-accent);
+  opacity: 0.1;
+  border-radius: 0.75rem;
+  border: 2px solid var(--color-accent-soft);
+}
+
+/* Navbar Logo Glow */
+.nav-logo-glow {
+  filter: drop-shadow(0 0 12px var(--color-accent-glow));
+}
+
+/* Mobile Menu Transitions */
+.overlay-enter-active, .overlay-leave-active {
+  transition: opacity 0.4s ease;
+}
+.overlay-enter-from, .overlay-leave-to {
+  opacity: 0;
+}
+
+.modal-enter-active, .modal-leave-active {
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease;
+}
+.modal-enter-from, .modal-leave-to {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+/* Navigation staggered entrance */
+@keyframes nav-slide-down {
+  from { transform: translateY(-100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+header {
+  animation: nav-slide-down 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* WhatsApp Floating Glow */
+@keyframes glow-wa {
+  0%, 100% { box-shadow: 4px 4px 0px var(--color-manga-border), 0 0 15px rgba(37, 211, 102, 0.4); }
+  50% { box-shadow: 4px 4px 0px var(--color-manga-border), 0 0 30px rgba(37, 211, 102, 0.8); }
+}
+.animate-glow-wa {
+  animation: glow-wa 2s infinite ease-in-out;
+}
+
+/* Popping / Bouncing Animation */
+@keyframes pop-bounce {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-10px) scale(1.05); }
+}
+.animate-pop {
+  animation: pop-bounce 3s infinite ease-in-out;
 }
