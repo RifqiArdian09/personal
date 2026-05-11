@@ -12,10 +12,8 @@ export default defineNuxtConfig({
   ],
   runtimeConfig: {
     public: {
-      supabase: {
-        url: process.env.NUXT_PUBLIC_SUPABASE_URL,
-        key: process.env.NUXT_PUBLIC_SUPABASE_KEY
-      }
+      supabaseUrl: process.env.NUXT_PUBLIC_SUPABASE_URL,
+      supabaseKey: process.env.NUXT_PUBLIC_SUPABASE_KEY
     }
   },
   supabase: {
@@ -25,21 +23,19 @@ export default defineNuxtConfig({
       exclude: [
         '/',
         '/id',
-        '/id/',
+        '/id/**',
+        '/en',
+        '/en/**',
         '/about',
-        '/id/about',
         '/projects',
-        '/projects/*',
-        '/id/projects',
-        '/id/projects/*',
+        '/projects/**',
         '/blog',
-        '/blog/*',
-        '/id/blog',
-        '/id/blog/*',
+        '/blog/**',
         '/certificates',
-        '/id/certificates',
+        '/certificates/**',
         '/contact',
-        '/id/contact',
+        '/contact/**',
+        '/confirm',
       ],
     }
   },
