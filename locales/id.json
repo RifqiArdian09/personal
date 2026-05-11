@@ -28,7 +28,7 @@
   "hero": {
     "greeting": "HALLO SEMUA",
     "iam": "Saya",
-    "description": "Seorang pelajar yang sedang mendalami dunia web development. Menciptakan pengalaman web yang menarik, interaktif, dan bermakna.",
+    "description": "Seorang Fullstack Developer yang sedang mendalami dunia web development. Menciptakan pengalaman web yang menarik, interaktif, dan bermakna.",
     "cta_work": "Lihat Karya",
     "cta_contact": "Hubungi Saya"
   },
@@ -36,7 +36,7 @@
     "badge": "01. TENTANG SAYA",
     "title_start": "Dari Rasa Ingin Tahu Menjadi",
     "title_accent": "Karya Nyata",
-    "description_1": "Halo! Saya {name}, seorang pelajar dan pengembang front-end yang mencintai dunia pemrograman. Saya percaya bahwa setiap baris kode adalah langkah kecil menuju solusi besar.",
+    "description_1": "Halo! Saya {name}, seorang pelajar dan pengembang fullstack yang mencintai dunia pemrograman. Saya percaya bahwa setiap baris kode adalah langkah kecil menuju solusi besar.",
     "description_2": "Saya suka belajar hal baru, mengeksplorasi teknologi, dan menciptakan tampilan web yang tidak hanya menarik, tapi juga bermanfaat. Di luar coding, saya juga aktif di bidang IT infrastructure dan hardware.",
     "stats": {
       "projects": "Proyek",

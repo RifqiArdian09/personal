@@ -28,7 +28,7 @@
   "hero": {
     "greeting": "HELLO EVERYONE",
     "iam": "I am",
-    "description": "A student deeply diving into the world of web development. Creating engaging, interactive, and meaningful web experiences.",
+    "description": "A Fullstack Developer deeply diving into the world of web development. Creating engaging, interactive, and meaningful web experiences.",
     "cta_work": "View Work",
     "cta_contact": "Contact Me"
   },
@@ -36,7 +36,7 @@
     "badge": "01. ABOUT ME",
     "title_start": "From Curiosity To",
     "title_accent": "Real Creation",
-    "description_1": "Hello! I am {name}, a student and front-end developer who loves the world of programming. I believe every line of code is a small step towards a big solution.",
+    "description_1": "Hello! I am {name}, a student and fullstack developer who loves the world of programming. I believe every line of code is a small step towards a big solution.",
     "description_2": "I love learning new things, exploring technology, and creating web interfaces that are not only attractive but also useful. Outside of coding, I am also active in IT infrastructure and hardware.",
     "stats": {
       "projects": "Projects",
