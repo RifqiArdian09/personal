@@ -1,8 +1,8 @@
 {
   "admin": {
-    "login": "Masuk",
+    "login": "Login",
     "email": "Email",
-    "password": "Kata Sandi",
+    "password": "Password",
     "signin": "Masuk",
     "profile": "Profil",
     "tech_stack": "Keahlian",
@@ -14,7 +14,63 @@
     "save": "Simpan",
     "cancel": "Batal",
     "delete": "Hapus",
-    "edit": "Ubah",
+    "edit": "Edit",
     "add": "Tambah Baru"
+  },
+  "nav": {
+    "home": "Beranda",
+    "about": "Tentang",
+    "portfolio": "Portofolio",
+    "blog": "Blog",
+    "contact": "Kontak",
+    "hire_me": "Hubungi"
+  },
+  "hero": {
+    "greeting": "HALLO SEMUA",
+    "iam": "Saya",
+    "description": "Seorang pelajar yang sedang mendalami dunia web development. Menciptakan pengalaman web yang menarik, interaktif, dan bermakna.",
+    "cta_work": "Lihat Karya",
+    "cta_contact": "Hubungi Saya"
+  },
+  "about": {
+    "badge": "01. TENTANG SAYA",
+    "title_start": "Dari Rasa Ingin Tahu Menjadi",
+    "title_accent": "Karya Nyata",
+    "description_1": "Halo! Saya {name}, seorang pelajar dan pengembang front-end yang mencintai dunia pemrograman. Saya percaya bahwa setiap baris kode adalah langkah kecil menuju solusi besar.",
+    "description_2": "Saya suka belajar hal baru, mengeksplorasi teknologi, dan menciptakan tampilan web yang tidak hanya menarik, tapi juga bermanfaat. Di luar coding, saya juga aktif di bidang IT infrastructure dan hardware.",
+    "stats": {
+      "projects": "Proyek",
+      "certificates": "Sertifikat",
+      "years": "Tahun"
+    }
+  },
+  "projects": {
+    "badge": "02. PORTFOLIO",
+    "title": "Proyek Unggulan",
+    "subtitle": "Kumpulan karya terbaik saya dalam membangun aplikasi web yang fungsional dan estetis.",
+    "view_detail": "Detail Proyek",
+    "live_demo": "Live Demo"
+  },
+  "certificates": {
+    "badge": "03. KREDENSIAL",
+    "title": "Sertifikasi",
+    "subtitle": "Bukti nyata dari perjalanan belajar dan dedikasi saya dalam mendalami teknologi IT.",
+    "verify": "Verifikasi",
+    "no_link": "Tidak ada link"
+  },
+  "blog": {
+    "badge": "04. WAWASAN",
+    "title": "Tulisan Terbaru",
+    "subtitle": "Berbagi pemikiran, tutorial, dan pengalaman seputar dunia pengembangan perangkat lunak.",
+    "read_article": "Baca Artikel",
+    "explore_all": "Lihat Semua Postingan"
+  },
+  "contact": {
+    "badge": "05. HUBUNGI",
+    "title": "Mari Ciptakan Sesuatu yang Luar Biasa",
+    "subtitle": "Ada ide projek atau sekadar ingin menyapa? Saya selalu terbuka untuk diskusi dan kolaborasi baru.",
+    "details": "Detail Kontak",
+    "socials": "Media Sosial",
+    "send_email": "Kirim Email"
   }
 }

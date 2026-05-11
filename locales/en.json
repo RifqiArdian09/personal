@@ -16,5 +16,61 @@
     "delete": "Delete",
     "edit": "Edit",
     "add": "Add New"
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "portfolio": "Portfolio",
+    "blog": "Blog",
+    "contact": "Contact",
+    "hire_me": "Hire Me"
+  },
+  "hero": {
+    "greeting": "HELLO EVERYONE",
+    "iam": "I am",
+    "description": "A student deeply diving into the world of web development. Creating engaging, interactive, and meaningful web experiences.",
+    "cta_work": "View Work",
+    "cta_contact": "Contact Me"
+  },
+  "about": {
+    "badge": "01. ABOUT ME",
+    "title_start": "From Curiosity To",
+    "title_accent": "Real Creation",
+    "description_1": "Hello! I am {name}, a student and front-end developer who loves the world of programming. I believe every line of code is a small step towards a big solution.",
+    "description_2": "I love learning new things, exploring technology, and creating web interfaces that are not only attractive but also useful. Outside of coding, I am also active in IT infrastructure and hardware.",
+    "stats": {
+      "projects": "Projects",
+      "certificates": "Certificates",
+      "years": "Years"
+    }
+  },
+  "projects": {
+    "badge": "02. PORTFOLIO",
+    "title": "Featured Projects",
+    "subtitle": "A collection of my best works in building functional and aesthetic web applications.",
+    "view_detail": "View Detail",
+    "live_demo": "Live Demo"
+  },
+  "certificates": {
+    "badge": "03. CREDENTIALS",
+    "title": "Certifications",
+    "subtitle": "Tangible proof of my learning journey and dedication to deepening IT technology.",
+    "verify": "Verify",
+    "no_link": "No link"
+  },
+  "blog": {
+    "badge": "04. INSIGHTS",
+    "title": "Latest Writings",
+    "subtitle": "Sharing thoughts, tutorials, and experiences around the world of software development.",
+    "read_article": "Read Article",
+    "explore_all": "Explore All Posts"
+  },
+  "contact": {
+    "badge": "05. GET IN TOUCH",
+    "title": "Let's Create Something Great",
+    "subtitle": "Have a project idea or just want to say hi? I'm always open for new discussions and collaborations.",
+    "details": "Contact Details",
+    "socials": "Social Media",
+    "send_email": "Send Email"
   }
 }

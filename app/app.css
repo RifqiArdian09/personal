@@ -15,6 +15,16 @@
   --font-display: "Space Grotesk", system-ui, sans-serif;
   --font-body: "Inter", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  /* Map Manga System to Tailwind Utilities */
+  --color-accent: var(--color-accent);
+  --color-accent-light: var(--color-accent-light);
+  --color-surface: var(--color-surface);
+  --color-surface-alt: var(--color-surface-alt);
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-manga-border: var(--color-manga-border);
+  --color-divider: var(--color-divider);
 }
 
 /* ===== Manga Design System: CSS Variables ===== */
@@ -24,7 +34,7 @@
   --color-accent-glow: rgba(13, 148, 136, 0.35);
   --color-accent-soft: rgba(13, 148, 136, 0.1);
   --color-surface: #ffffff;
-  --color-surface-alt: #f8fafc;
+  --color-surface-alt: #f1f5f9; /* Darkened from #f8fafc for better contrast */
   --color-surface-glass: rgba(255, 255, 255, 0.7);
   --color-text-primary: #0f172a;
   --color-text-secondary: #64748b;
@@ -124,6 +134,56 @@ html.dark {
   }
   .nav-link-active {
     @apply bg-teal-500/10 text-teal-600 dark:text-teal-400 font-semibold border-r-2 border-teal-500;
+  }
+
+  /* Specific hero styles */
+  .manga-underline {
+    position: relative;
+    z-index: 1;
+  }
+  .manga-underline::after {
+    content: '';
+    position: absolute;
+    bottom: 8%;
+    left: -2%;
+    width: 104%;
+    height: 30%;
+    background: var(--color-accent);
+    opacity: 0.3;
+    z-index: -1;
+    transform: rotate(-1deg);
+  }
+
+  .social-icon-btn {
+    @apply w-11 h-11 flex items-center justify-center rounded-xl border-2 transition-all duration-500 hover:scale-110 hover:-rotate-6 hover:text-white;
+    background-color: var(--color-surface);
+    border-color: var(--color-manga-border);
+    box-shadow: 4px 4px 0px var(--color-manga-border);
+  }
+  .social-icon-btn:hover {
+    background-color: var(--color-accent);
+    box-shadow: 0px 0px 0px var(--color-manga-border);
+  }
+
+  /* Premium Glassmorphism */
+  .glass-panel {
+    background: rgba(var(--color-surface), 0.7);
+    backdrop-filter: blur(12px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
+  }
+  .dark .glass-panel {
+    background: rgba(15, 23, 42, 0.6);
+    border-color: rgba(255, 255, 255, 0.05);
+  }
+
+  .mesh-gradient {
+    background-color: var(--color-surface);
+    background-image: 
+      radial-gradient(at 0% 0%, rgba(13, 148, 136, 0.15) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(59, 130, 246, 0.1) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(13, 148, 136, 0.1) 0px, transparent 50%),
+      radial-gradient(at 0% 100%, rgba(59, 130, 246, 0.15) 0px, transparent 50%);
   }
 }
 
@@ -370,12 +430,28 @@ html.dark {
   border-color: rgba(255, 255, 255, 0.05);
 }
 
-/* Wavy Section Divider - Reduced depth to avoid cutting content */
+/* Wavy Section Divider - Refined for both Desktop and Mobile */
 .manga-divider-top {
-  clip-path: polygon(0% 8%, 5% 7.5%, 10% 6.5%, 15% 5.5%, 20% 5%, 25% 4.8%, 30% 5%, 35% 5.5%, 40% 6.5%, 45% 7.5%, 50% 8.5%, 55% 9.5%, 60% 10%, 65% 9.8%, 70% 9.2%, 75% 8.2%, 80% 7.2%, 85% 6.5%, 90% 5.8%, 95% 5.5%, 100% 5.8%, 100% 100%, 0% 100%);
+  /* Default Mobile: Much shallower to avoid cutting content */
+  clip-path: polygon(0% 3%, 10% 2.5%, 20% 2%, 30% 2.2%, 40% 2.8%, 50% 3.5%, 60% 3.8%, 70% 3.5%, 80% 2.8%, 90% 2.2%, 100% 2.5%, 100% 100%, 0% 100%);
+  filter: drop-shadow(0 -3px 6px rgba(0,0,0,0.08));
 }
+
+@media (min-width: 1024px) {
+  .manga-divider-top {
+    clip-path: polygon(0% 8%, 5% 7.5%, 10% 6.5%, 15% 5.5%, 20% 5%, 25% 4.8%, 30% 5%, 35% 5.5%, 40% 6.5%, 45% 7.5%, 50% 8.5%, 55% 9.5%, 60% 10%, 65% 9.8%, 70% 9.2%, 75% 8.2%, 80% 7.2%, 85% 6.5%, 90% 5.8%, 95% 5.5%, 100% 5.8%, 100% 100%, 0% 100%);
+  }
+}
+
 .manga-divider-bottom {
-  clip-path: polygon(0% 0%, 100% 0%, 100% 85%, 95% 86%, 90% 88%, 85% 90%, 80% 92%, 75% 93%, 70% 93.5%, 65% 93%, 60% 91.5%, 55% 89.5%, 50% 87.5%, 45% 86%, 40% 85.5%, 35% 86%, 30% 87.5%, 25% 89.5%, 20% 91.5%, 15% 93%, 10% 93.5%, 5% 93%, 0% 91.5%);
+  /* Default Mobile */
+  clip-path: polygon(0% 0%, 100% 0%, 100% 97%, 90% 97.5%, 80% 98.2%, 70% 97.5%, 60% 96.5%, 50% 95.5%, 40% 96.5%, 30% 97.5%, 20% 98.2%, 10% 97.5%, 0% 97%);
+}
+
+@media (min-width: 1024px) {
+  .manga-divider-bottom {
+    clip-path: polygon(0% 0%, 100% 0%, 100% 85%, 95% 86%, 90% 88%, 85% 90%, 80% 92%, 75% 93%, 70% 93.5%, 65% 93%, 60% 91.5%, 55% 89.5%, 50% 87.5%, 45% 86%, 40% 85.5%, 35% 86%, 30% 87.5%, 25% 89.5%, 20% 91.5%, 15% 93%, 10% 93.5%, 5% 93%, 0% 91.5%);
+  }
 }
 
 /* Floating Elements */
@@ -397,4 +473,12 @@ html.dark {
 @keyframes shimmer {
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
+}
+
+/* Squircle Mask for Avatars */
+.squircle {
+  mask-image: url("data:image/svg+xml,%3csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M100 0C20 0 0 20 0 100s20 100 100 100 100-20 100-100S180 0 100 0Z'/%3e%3c/svg%3e");
+  mask-size: contain;
+  mask-position: center;
+  mask-repeat: no-repeat;
 }

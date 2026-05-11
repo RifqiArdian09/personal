@@ -9,14 +9,20 @@ const isDark = computed({
   }
 })
 
-const links = [
-  { label: 'Home', to: '/', hash: '', icon: 'i-heroicons-home' },
-  { label: 'About', to: '/', hash: '#about', icon: 'i-heroicons-user' },
-  { label: 'Projects', to: '/', hash: '#projects', icon: 'i-heroicons-briefcase' },
-  { label: 'Certificates', to: '/', hash: '#certificates', icon: 'i-heroicons-academic-cap' },
-  { label: 'Blog', to: '/', hash: '#blog', icon: 'i-heroicons-document-text' },
-  { label: 'Contact', to: '/', hash: '#contact', icon: 'i-heroicons-envelope' }
-]
+const { locale, setLocale } = useI18n();
+
+const links = computed(() => [
+  { label: locale.value === 'id' ? 'Beranda' : 'Home', to: "/", hash: "#home", icon: "i-heroicons-home" },
+  { label: locale.value === 'id' ? 'Tentang' : 'About', to: "/", hash: "#about", icon: "i-heroicons-user" },
+  { label: locale.value === 'id' ? 'Portofolio' : 'Portfolio', to: "/", hash: "#projects", icon: "i-heroicons-code-bracket-square" },
+  { label: locale.value === 'id' ? 'Sertifikat' : 'Certificates', to: "/", hash: "#certificates", icon: "i-heroicons-trophy" },
+  { label: locale.value === 'id' ? 'Blog' : 'Blog', to: "/", hash: "#blog", icon: "i-heroicons-document-text" },
+  { label: locale.value === 'id' ? 'Kontak' : 'Contact', to: "/", hash: "#contact", icon: "i-heroicons-envelope" },
+]);
+
+const toggleLocale = () => {
+  setLocale(locale.value === 'id' ? 'en' : 'id');
+};
 
 const isMobileMenuOpen = ref(false)
 const scrolled = ref(false)
@@ -66,48 +72,62 @@ onMounted(() => {
     <!-- Navbar -->
     <header
       class="fixed top-0 inset-x-0 z-[999] transition-all duration-500"
-      :class="scrolled ? 'bg-surface-glass backdrop-blur-xl border-b-[3px] border-manga-border shadow-lg' : 'bg-transparent pt-4'"
+      :class="scrolled ? 'bg-surface/80 backdrop-blur-xl border-b-[3px] border-manga-border shadow-[0_4px_20px_rgba(0,0,0,0.1)]' : 'bg-transparent pt-6'"
     >
-      <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
         <!-- Logo -->
-        <NuxtLink to="/" class="flex items-center gap-2 group">
-          <div class="w-10 h-10 bg-accent rounded-xl flex items-center justify-center border-2 border-manga-border shadow-[2px_2px_0px_var(--color-manga-border)] group-hover:rotate-6 transition-transform">
-            <span class="text-white font-bold font-display text-lg">R</span>
-          </div>
-          <span class="font-bold font-display text-xl tracking-tight hidden sm:block">
-            <span class="text-accent">{</span>Rifqi<span class="text-accent">.dev}</span>
+        <NuxtLink to="/" class="flex items-center gap-3 group">
+      
+          <span class="font-black font-display text-lg sm:text-2xl tracking-tight">
+            Rifqi<span class="text-accent">.dev</span>
           </span>
         </NuxtLink>
 
         <!-- Desktop Nav -->
-        <nav class="hidden lg:flex items-center gap-1">
-          <NuxtLink
+        <nav class="hidden lg:flex items-center gap-2">
+           <NuxtLink
             v-for="link in links"
             :key="link.label"
             :to="link.hash ? { path: link.to, hash: link.hash } : link.to"
-            class="px-4 py-2 text-sm font-bold font-display text-text-secondary hover:text-accent rounded-lg hover:bg-accent-soft transition-all duration-200 flex items-center gap-2"
-            active-class="text-accent bg-accent-soft"
+            class="group relative px-5 py-2 text-sm font-black font-display text-text-secondary hover:text-accent transition-all duration-300"
+            active-class="active-nav-link"
           >
-            <UIcon :name="link.icon" class="w-4 h-4" />
-            {{ link.label }}
+            <div class="relative z-10 flex items-center gap-2">
+              <UIcon :name="link.icon" class="w-4 h-4 transition-transform group-hover:scale-110" />
+              <span class="tracking-widest uppercase text-[10px]">{{ link.label }}</span>
+            </div>
+            <!-- Hover/Active Background Pill -->
+            <div class="absolute inset-0 bg-accent/10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div class="nav-active-pill absolute inset-0 bg-accent/10 rounded-xl hidden border-2 border-accent/20"></div>
           </NuxtLink>
         </nav>
 
         <!-- Actions -->
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-4">
+          <!-- Language Switcher -->
+          <button
+            @click="toggleLocale"
+            class="w-12 h-12 rounded-xl border-2 border-manga-border shadow-[4px_4px_0px_var(--color-manga-border)] bg-surface flex flex-col items-center justify-center hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_var(--color-manga-border)] transition-all cursor-pointer group"
+          >
+            <UIcon name="i-heroicons-language" class="w-4 h-4 text-accent group-hover:scale-110 transition-transform" />
+            <span class="font-black font-mono text-[8px] uppercase mt-0.5">{{ locale === 'id' ? 'EN' : 'ID' }}</span>
+          </button>
+
           <ClientOnly>
             <button
               @click="isDark = !isDark"
-              class="w-10 h-10 rounded-xl border-2 border-manga-border shadow-[3px_3px_0px_var(--color-manga-border)] bg-surface flex items-center justify-center hover:-translate-y-1 hover:shadow-[5px_5px_0px_var(--color-manga-border)] transition-all cursor-pointer active:translate-y-0 active:shadow-none"
+              class="w-12 h-12 rounded-xl border-2 border-manga-border shadow-[4px_4px_0px_var(--color-manga-border)] bg-surface flex items-center justify-center hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_var(--color-manga-border)] transition-all cursor-pointer active:translate-y-0 active:shadow-none"
               aria-label="Toggle theme"
             >
               <UIcon :name="isDark ? 'i-heroicons-moon' : 'i-heroicons-sun'" class="w-5 h-5 text-accent" />
             </button>
           </ClientOnly>
 
+        
+
           <!-- Mobile Menu Toggle -->
           <button
-            class="md:hidden w-10 h-10 rounded-xl border-2 border-manga-border shadow-[3px_3px_0px_var(--color-manga-border)] bg-surface flex items-center justify-center hover:-translate-y-1 transition-all cursor-pointer"
+            class="lg:hidden w-12 h-12 rounded-xl border-2 border-manga-border shadow-[4px_4px_0px_var(--color-manga-border)] bg-surface flex items-center justify-center hover:translate-y-[-2px] transition-all cursor-pointer"
             @click="isMobileMenuOpen = true"
           >
             <UIcon name="i-heroicons-bars-3-bottom-right" class="w-6 h-6" />
@@ -160,46 +180,81 @@ onMounted(() => {
     </main>
 
     <!-- Footer -->
-    <footer class="bg-surface-alt border-t-[4px] border-manga-border relative overflow-hidden">
-      <!-- Decorative pattern -->
-      <div class="absolute inset-0 opacity-5 pointer-events-none bg-hero-pattern"></div>
+    <footer class="bg-surface border-t-[4px] border-manga-border relative overflow-hidden">
+      <!-- Decorative background -->
+      <div class="absolute inset-0 opacity-[0.03] pointer-events-none bg-hero-pattern"></div>
       
-      <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
-        <div class="flex flex-col md:flex-row items-center justify-between gap-12">
-          <div class="flex flex-col items-center md:items-start gap-4">
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 bg-accent rounded-xl flex items-center justify-center border-2 border-manga-border shadow-[3px_3px_0px_var(--color-manga-border)]">
-                <span class="text-white font-bold text-lg font-display">R</span>
+      <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-24 relative z-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
+          <!-- Brand Column -->
+          <div class="space-y-6 lg:col-span-1">
+            <NuxtLink to="/" class="flex items-center gap-3 group">
+              <div class="w-12 h-12 bg-accent rounded-xl flex items-center justify-center border-2 border-manga-border shadow-[4px_4px_0px_var(--color-manga-border)]">
+                <span class="text-white font-bold text-xl font-display">R</span>
               </div>
-              <span class="font-bold font-display text-2xl tracking-tight">Rifqi Ardian</span>
-            </div>
-            <p class="text-text-secondary text-sm font-mono max-w-[300px] text-center md:text-left">
-              Crafting premium digital experiences with attention to detail and modern aesthetics.
-            </p>
-          </div>
-
-          <div class="flex flex-col items-center gap-6">
-            <div class="flex items-center gap-4">
-              <a href="https://github.com/rifqiardian09" target="_blank" class="w-11 h-11 rounded-xl border-2 border-manga-border shadow-[3px_3px_0px_var(--color-manga-border)] bg-surface flex items-center justify-center hover:-translate-y-1 hover:text-accent transition-all">
-                <UIcon name="i-simple-icons-github" class="w-6 h-6" />
-              </a>
-              <a href="https://linkedin.com/in/rifqiardian" target="_blank" class="w-11 h-11 rounded-xl border-2 border-manga-border shadow-[3px_3px_0px_var(--color-manga-border)] bg-surface flex items-center justify-center hover:-translate-y-1 hover:text-accent transition-all">
-                <UIcon name="i-simple-icons-linkedin" class="w-6 h-6" />
-              </a>
-              <a href="https://instagram.com/rifqiardian_09" target="_blank" class="w-11 h-11 rounded-xl border-2 border-manga-border shadow-[3px_3px_0px_var(--color-manga-border)] bg-surface flex items-center justify-center hover:-translate-y-1 hover:text-accent transition-all">
-                <UIcon name="i-simple-icons-instagram" class="w-6 h-6" />
-              </a>
-            </div>
-            <p class="text-text-secondary text-xs font-mono">
-              &copy; {{ new Date().getFullYear() }} — 
-            </p>
-          </div>
-
-          <nav class="grid grid-cols-2 gap-x-8 gap-y-2">
-            <NuxtLink v-for="link in links" :key="link.label" :to="link.hash ? { path: link.to, hash: link.hash } : link.to" class="text-sm font-bold font-display text-text-secondary hover:text-accent transition-colors">
-              {{ link.label }}
+              <span class="font-black font-display text-2xl tracking-tight">Rifqi<span class="text-accent">.dev</span></span>
             </NuxtLink>
-          </nav>
+            <p class="text-text-secondary text-sm font-medium leading-relaxed max-w-xs">
+              Membangun pengalaman digital premium dengan fokus pada performa, aksesibilitas, dan estetika modern.
+            </p>
+            <div class="flex items-center gap-4">
+              <a v-for="social in [
+                { icon: 'i-simple-icons-github', url: 'https://github.com/rifqiardian09' },
+                { icon: 'i-simple-icons-linkedin', url: 'https://linkedin.com/in/rifqiardian' },
+                { icon: 'i-simple-icons-instagram', url: 'https://instagram.com/rifqiardian_09' }
+              ]" :key="social.icon" :href="social.url" target="_blank"
+                class="w-10 h-10 rounded-xl border-2 border-manga-border shadow-[3px_3px_0px_var(--color-manga-border)] bg-surface flex items-center justify-center hover:translate-y-[-2px] hover:shadow-[5px_5px_0px_var(--color-manga-border)] hover:text-accent transition-all">
+                <UIcon :name="social.icon" class="w-5 h-5" />
+              </a>
+            </div>
+          </div>
+
+          <!-- Quick Links -->
+          <div class="space-y-6">
+            <h4 class="font-black font-display text-sm uppercase tracking-[0.2em] text-text-primary">Navigasi</h4>
+            <nav class="flex flex-col gap-3">
+              <NuxtLink v-for="link in links" :key="link.label" :to="link.hash ? { path: link.to, hash: link.hash } : link.to" 
+                class="text-sm font-bold text-text-secondary hover:text-accent transition-colors flex items-center gap-2 group">
+                <span class="w-0 group-hover:w-4 h-[2px] bg-accent transition-all"></span>
+                {{ link.label }}
+              </NuxtLink>
+            </nav>
+          </div>
+
+          <!-- Services/Focus -->
+          <div class="space-y-6">
+            <h4 class="font-black font-display text-sm uppercase tracking-[0.2em] text-text-primary">Fokus Utama</h4>
+            <ul class="space-y-3 text-sm font-medium text-text-secondary">
+              <li class="flex items-center gap-2">
+                <UIcon name="i-heroicons-check-circle" class="w-4 h-4 text-accent" /> Fullstack Development
+              </li>
+              <li class="flex items-center gap-2">
+                <UIcon name="i-heroicons-check-circle" class="w-4 h-4 text-accent" /> UI/UX Design
+              </li>
+              <li class="flex items-center gap-2">
+                <UIcon name="i-heroicons-check-circle" class="w-4 h-4 text-accent" /> Cyber Security
+              </li>
+            </ul>
+          </div>
+
+          <!-- Newsletter/Call to action -->
+          <div class="space-y-6">
+            <h4 class="font-black font-display text-sm uppercase tracking-[0.2em] text-text-primary">Mulai Proyek?</h4>
+            <p class="text-sm text-text-secondary font-medium">
+              Siap untuk mewujudkan ide brilian Anda menjadi kenyataan?
+            </p>
+            <a href="#contact" class="inline-flex items-center gap-2 px-6 py-3 bg-accent text-white text-[10px] font-black uppercase tracking-widest rounded-xl border-2 border-manga-border shadow-[4px_4px_0px_#000] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000] transition-all">
+              Hubungi Sekarang
+            </a>
+          </div>
+        </div>
+
+        <!-- Bottom Bar -->
+        <div class="mt-20 pt-8 border-t-2 border-divider flex flex-col md:flex-row items-center justify-between gap-6">
+          <p class="text-xs font-mono text-text-secondary">
+            &copy; {{ new Date().getFullYear() }} — Rifqi Ardian. All Rights Reserved.
+          </p>
+          
         </div>
       </div>
     </footer>
@@ -213,6 +268,15 @@ onMounted(() => {
 
 .modal-enter-active, .modal-leave-active { transition: all .4s cubic-bezier(.22, 1, .36, 1); }
 .modal-enter-from, .modal-leave-to { opacity: 0; transform: translateX(50px); }
+
+/* Nav active state */
+.active-nav-link {
+  color: var(--color-accent) !important;
+}
+
+.active-nav-link .nav-active-pill {
+  display: block !important;
+}
 
 /* Global selection color */
 ::selection {
