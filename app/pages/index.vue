@@ -121,21 +121,36 @@ const selectedCert = ref<any>(null);
 // FAQ Logic
 const activeFaq = ref<number | null>(0);
 const faqs = computed(() => [
+  // FAQ Umum
   {
-    q: locale.value === 'id' ? 'Teknologi apa saja yang kamu kuasai?' : 'What tech stack do you use?',
-    a: locale.value === 'id' ? 'Saya fokus pada Fullstack Web Development menggunakan Nuxt 3, Vue.js, Tailwind CSS, Laravel, dan Supabase. Saya juga sedang mendalami Cyber Security dan IT Infrastructure.' : 'I focus on Fullstack Web Development using Nuxt 3, Vue.js, Tailwind CSS, Laravel, and Supabase. I am also exploring Cyber Security and IT Infrastructure.'
+    q: locale.value === 'id' ? 'Apa saja layanan yang Anda tawarkan?' : 'What services do you offer?',
+    a: locale.value === 'id' ? 'Saya fokus pada pembuatan aplikasi web kustom, mulai dari pengembangan front-end yang interaktif hingga sistem back-end yang kuat. Saya juga membantu integrasi API dan optimasi performa web.' : 'I focus on building custom web applications, from interactive front-end development to robust back-end systems. I also assist with API integration and web performance optimization.'
   },
   {
-    q: locale.value === 'id' ? 'Apakah kamu menerima proyek freelance?' : 'Do you accept freelance projects?',
-    a: locale.value === 'id' ? 'Ya! Saya selalu terbuka untuk kolaborasi menarik atau membantu mewujudkan ide startup Anda. Silakan hubungi saya melalui WhatsApp atau Email.' : 'Yes! I am always open to interesting collaborations or helping you realize your startup ideas. Please contact me via WhatsApp or Email.'
+    q: locale.value === 'id' ? 'Bagaimana cara memulai proyek bersama Anda?' : 'How do I start a project with you?',
+    a: locale.value === 'id' ? 'Cukup klik tombol WhatsApp di pojok kanan bawah atau kirim email. Saya biasanya merespons dalam waktu 24 jam untuk mendiskusikan detail proyek atau jadwal meeting singkat.' : 'Just click the WhatsApp button at the bottom right or send an email. I usually respond within 24 hours to discuss project details or schedule a quick meeting.'
+  },
+  // Teknis & Workflow
+  {
+    q: locale.value === 'id' ? 'Teknologi apa yang biasa Anda gunakan?' : 'What technology stack do you use?',
+    a: locale.value === 'id' ? 'Untuk pengembangan web, saya mengandalkan ekosistem modern untuk antarmuka, serta CSS framework terbaru untuk desain responsif dan minimalis. Di sisi server, saya berpengalaman dengan berbagai framework back-end populer dan database management.' : 'For web development, I rely on modern ecosystems for the interface and the latest CSS frameworks for responsive and minimalist design. On the server side, I am experienced with various popular back-end frameworks and database management.'
   },
   {
-    q: locale.value === 'id' ? 'Bagaimana cara menghubungi kamu?' : 'How can I contact you?',
-    a: locale.value === 'id' ? 'Anda bisa langsung mengklik tombol chat WhatsApp di pojok kiri bawah layar, atau mengirim email melalui tombol di bagian bawah halaman FAQ ini.' : 'You can directly click the WhatsApp chat button at the bottom left of the screen, or send an email through the button at the bottom of this FAQ section.'
+    q: locale.value === 'id' ? 'Apakah Anda bisa mengerjakan desain sekaligus coding?' : 'Can you handle both design and coding?',
+    a: locale.value === 'id' ? 'Tentu. Saya memiliki ketertarikan kuat pada estetika antarmuka yang bersih dan modern. Saya biasanya merancang mockup terlebih dahulu sebelum masuk ke tahap pengembangan kode agar sesuai ekspektasi Anda.' : 'Certainly. I have a strong interest in clean and modern interface aesthetics. I usually design mockups first before entering the code development stage to meet your expectations.'
   },
   {
-    q: locale.value === 'id' ? 'Dimana kamu belajar pemrograman?' : 'Where did you learn programming?',
-    a: locale.value === 'id' ? 'Saya adalah mahasiswa Rekayasa Perangkat Lunak dan juga banyak belajar secara otodidak melalui berbagai kursus online tersertifikasi seperti Dicoding dan platform lainnya.' : 'I am a Software Engineering student and also learned self-taught through various certified online courses like Dicoding and other platforms.'
+    q: locale.value === 'id' ? 'Berapa lama waktu pengerjaan satu proyek?' : 'How long does a project take?',
+    a: locale.value === 'id' ? 'Waktu pengerjaan bergantung pada kompleksitas fitur. Landing page sederhana biasanya memakan waktu 1-2 minggu, sedangkan sistem web yang kompleks bisa memakan waktu 1 bulan atau lebih.' : 'Timeline depends on feature complexity. A simple landing page usually takes 1-2 weeks, while complex web systems can take 1 month or more.'
+  },
+  // Lain-lain
+  {
+    q: locale.value === 'id' ? 'Apakah Anda tersedia untuk pekerjaan Full-time atau Freelance?' : 'Are you available for Full-time or Freelance work?',
+    a: locale.value === 'id' ? 'Saya terbuka untuk kedua peluang tersebut, baik kontrak proyek jangka pendek maupun posisi tetap di perusahaan yang inovatif.' : 'I am open to both opportunities, whether short-term project contracts or permanent positions in innovative companies.'
+  },
+  {
+    q: locale.value === 'id' ? 'Apakah Anda bersedia mengerjakan revisi?' : 'Are you willing to do revisions?',
+    a: locale.value === 'id' ? 'Ya, setiap proyek mencakup slot revisi untuk memastikan hasil akhir benar-benar memuaskan dan berfungsi sesuai tujuan awal.' : 'Yes, every project includes revision slots to ensure the final result is truly satisfying and functions according to its original purpose.'
   }
 ]);
 

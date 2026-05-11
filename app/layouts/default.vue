@@ -121,9 +121,9 @@ watch(locale, () => typeWaLabel());
     <!-- Navbar -->
     <header
       class="fixed top-0 inset-x-0 z-[10000] transition-all duration-700"
-      :class="scrolled ? 'bg-surface/70 backdrop-blur-2xl border-b-[3px] border-manga-border shadow-[0_8px_30px_rgba(0,0,0,0.08)] py-3' : 'bg-transparent py-6'"
+      :class="scrolled ? 'bg-surface/70 backdrop-blur-2xl border-b-[2px] border-manga-border shadow-[0_4px_20px_rgba(0,0,0,0.05)] py-2' : 'bg-transparent py-4'"
     >
-      <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
         <!-- Logo -->
         <NuxtLink to="/" class="flex items-center gap-3 group relative">
           <div class="absolute -inset-2 bg-accent/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -135,12 +135,12 @@ watch(locale, () => typeWaLabel());
         </NuxtLink>
 
         <!-- Desktop Nav -->
-        <nav class="hidden lg:flex items-center gap-1 bg-surface-alt/50 border-2 border-manga-border rounded-2xl p-1.5 shadow-[4px_4px_0px_var(--color-manga-border)]">
+        <nav class="hidden lg:flex items-center gap-0.5 bg-surface-alt/50 border-2 border-manga-border rounded-xl p-1 shadow-[3px_3px_0px_var(--color-manga-border)]">
            <NuxtLink
             v-for="link in links"
             :key="link.label"
             :to="link.hash ? { path: link.to, hash: link.hash } : link.to"
-            class="group relative px-5 py-2.5 text-sm font-black font-display text-text-secondary hover:text-accent transition-all duration-300"
+            class="group relative px-3.5 py-1.5 text-sm font-black font-display text-text-secondary hover:text-accent transition-all duration-300"
             active-class="active-nav-link"
           >
             <div class="relative z-10 flex items-center gap-2">
@@ -157,10 +157,10 @@ watch(locale, () => typeWaLabel());
           <!-- Language Switcher -->
           <button
             @click="toggleLocale"
-            class="w-12 h-12 rounded-xl border-2 border-manga-border shadow-[4px_4px_0px_var(--color-manga-border)] bg-surface flex flex-col items-center justify-center hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_var(--color-manga-border)] transition-all cursor-pointer group"
+            class="w-10 h-10 rounded-lg border-2 border-manga-border shadow-[3px_3px_0px_var(--color-manga-border)] bg-surface flex flex-col items-center justify-center hover:translate-y-[-2px] hover:shadow-[5px_5px_0px_var(--color-manga-border)] transition-all cursor-pointer group"
           >
-            <UIcon name="i-heroicons-language" class="w-4 h-4 text-accent group-hover:scale-110 transition-transform" />
-            <span class="font-black font-mono text-[8px] uppercase mt-0.5">{{ locale === 'id' ? 'EN' : 'ID' }}</span>
+            <UIcon name="i-heroicons-language" class="w-3.5 h-3.5 text-accent group-hover:scale-110 transition-transform" />
+            <span class="font-black font-mono text-[7px] uppercase mt-0.5">{{ locale === 'id' ? 'EN' : 'ID' }}</span>
           </button>
 
 
@@ -253,50 +253,67 @@ watch(locale, () => typeWaLabel());
 
           <!-- Quick Links -->
           <div class="space-y-6">
-            <h4 class="font-black font-display text-sm uppercase tracking-[0.2em] text-text-primary">Navigasi</h4>
+            <h4 class="font-black font-display text-xs uppercase tracking-[0.2em] text-text-primary border-l-4 border-accent pl-4">Navigasi</h4>
             <nav class="flex flex-col gap-3">
               <NuxtLink v-for="link in links" :key="link.label" :to="link.hash ? { path: link.to, hash: link.hash } : link.to" 
                 class="text-sm font-bold text-text-secondary hover:text-accent transition-colors flex items-center gap-2 group">
-                <span class="w-0 group-hover:w-4 h-[2px] bg-accent transition-all"></span>
+                <span class="w-0 group-hover:w-3 h-[2px] bg-accent transition-all"></span>
                 {{ link.label }}
               </NuxtLink>
             </nav>
           </div>
 
-          <!-- Services/Focus -->
-          <div class="space-y-6">
-            <h4 class="font-black font-display text-sm uppercase tracking-[0.2em] text-text-primary">Fokus Utama</h4>
-            <ul class="space-y-3 text-sm font-medium text-text-secondary">
-              <li class="flex items-center gap-2">
-                <UIcon name="i-heroicons-check-circle" class="w-4 h-4 text-accent" /> Fullstack Development
-              </li>
-              <li class="flex items-center gap-2">
-                <UIcon name="i-heroicons-check-circle" class="w-4 h-4 text-accent" /> UI/UX Design
-              </li>
-              <li class="flex items-center gap-2">
-                <UIcon name="i-heroicons-check-circle" class="w-4 h-4 text-accent" /> Cyber Security
-              </li>
-            </ul>
+          <!-- Services/Status -->
+          <div class="space-y-8">
+            <div class="space-y-4">
+              <h4 class="font-black font-display text-xs uppercase tracking-[0.2em] text-text-primary border-l-4 border-accent pl-4">Status</h4>
+              <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-green-500/10 text-green-500 text-[10px] font-black uppercase tracking-widest rounded-lg border border-green-500/20">
+                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                Available for Projects
+              </div>
+            </div>
+            
+            <div class="space-y-4">
+              <h4 class="font-black font-display text-xs uppercase tracking-[0.2em] text-text-primary border-l-4 border-accent pl-4">Fokus</h4>
+              <div class="flex flex-wrap gap-2">
+                <span v-for="skill in ['Web Dev', 'UI/UX', 'Mobile', 'Security']" :key="skill"
+                  class="px-2 py-1 bg-surface-alt border-2 border-manga-border text-[9px] font-black uppercase tracking-widest text-text-secondary rounded-md shadow-[2px_2px_0px_var(--color-manga-border)]">
+                  {{ skill }}
+                </span>
+              </div>
+            </div>
           </div>
 
-          <!-- Newsletter/Call to action -->
+          <!-- Location/Contact -->
           <div class="space-y-6">
-            <h4 class="font-black font-display text-sm uppercase tracking-[0.2em] text-text-primary">Mulai Proyek?</h4>
-            <p class="text-sm text-text-secondary font-medium">
-              Siap untuk mewujudkan ide brilian Anda menjadi kenyataan?
-            </p>
-            <a href="#contact" class="inline-flex items-center gap-2 px-6 py-3 bg-accent text-white text-[10px] font-black uppercase tracking-widest rounded-xl border-2 border-manga-border shadow-[4px_4px_0px_#000] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000] transition-all">
-              Hubungi Sekarang
-            </a>
+            <h4 class="font-black font-display text-xs uppercase tracking-[0.2em] text-text-primary border-l-4 border-accent pl-4">Lokasi</h4>
+            <div class="space-y-4">
+              <div class="flex items-start gap-3">
+                <UIcon name="i-heroicons-map-pin" class="w-5 h-5 text-accent shrink-0" />
+                <div class="space-y-1">
+                  <p class="text-sm font-bold text-text-primary leading-none">Indonesia</p>
+                  <p class="text-xs text-text-secondary">GMT +7 (WIB)</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3">
+                <UIcon name="i-heroicons-envelope" class="w-5 h-5 text-accent shrink-0" />
+                <div class="space-y-1">
+                  <p class="text-sm font-bold text-text-primary leading-none">Email</p>
+                  <p class="text-xs text-text-secondary truncate">ardianrifqi77@gmail.com</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
         <!-- Bottom Bar -->
         <div class="mt-20 pt-8 border-t-2 border-divider flex flex-col md:flex-row items-center justify-between gap-6">
-          <p class="text-xs font-mono text-text-secondary">
-            &copy; {{ new Date().getFullYear() }} — Rifqi Ardian. All Rights Reserved.
+          <p class="text-[10px] font-black font-mono text-text-secondary uppercase tracking-widest">
+            &copy; {{ new Date().getFullYear() }} — <span class="text-text-primary">Rifqi Ardian</span>. All Rights Reserved.
           </p>
-          
+          <div class="flex items-center gap-2 text-[10px] font-black font-mono text-text-secondary uppercase tracking-widest">
+            Made with <UIcon name="i-heroicons-heart" class="w-4 h-4 text-red-500 animate-pulse" /> using Nuxt 3
+          </div>
         </div>
       </div>
     </footer>
