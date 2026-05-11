@@ -5,7 +5,7 @@ definePageMeta({
 
 const route = useRoute()
 const router = useRouter()
-const supabase = useSupabaseClient()
+const supabase = useSupabaseClient<any>()
 const toast = useToast()
 
 const id = route.params.id as string
@@ -50,7 +50,7 @@ const fetchProject = async () => {
     
     if (error) throw error
     if (data) {
-      const { project_tech, project_team_members, project_images, ...projectData } = data
+      const { project_tech, project_team_members, project_images, ...projectData } = data as any
       project.value = projectData
       techTags.value = project_tech || []
       teamMembers.value = project_team_members || []

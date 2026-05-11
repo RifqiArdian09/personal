@@ -3,7 +3,7 @@ definePageMeta({
   layout: 'admin'
 })
 
-const supabase = useSupabaseClient()
+const supabase = useSupabaseClient<any>()
 const toast = useToast()
 
 const loading = ref(false)
@@ -30,7 +30,7 @@ const fetchProfile = async () => {
       .single()
     
     if (error && error.code !== 'PGRST116') throw error
-    if (data) profile.value = { ...profile.value, ...data }
+    if (data) profile.value = { ...profile.value, ...(data as any) }
   } catch (e: any) {
     toast.add({ title: 'Error fetching profile', description: e.message, color: 'error' })
   } finally {
@@ -46,7 +46,7 @@ const saveProfile = async () => {
       .upsert({
         ...profile.value,
         updated_at: new Date().toISOString()
-      })
+      } as any)
     
     if (error) throw error
     toast.add({ title: 'Profile updated successfully', color: 'success', icon: 'i-heroicons-check-circle' })

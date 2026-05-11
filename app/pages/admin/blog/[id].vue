@@ -5,7 +5,7 @@ definePageMeta({
 
 const route = useRoute()
 const router = useRouter()
-const supabase = useSupabaseClient()
+const supabase = useSupabaseClient<any>()
 const toast = useToast()
 
 const id = route.params.id as string
@@ -37,7 +37,7 @@ const fetchPost = async () => {
       .single()
     
     if (error) throw error
-    if (data) post.value = { ...data }
+    if (data) post.value = { ...(data as any) }
   } catch (e: any) {
     toast.add({ title: 'Error fetching post', description: e.message, color: 'error' })
   } finally {

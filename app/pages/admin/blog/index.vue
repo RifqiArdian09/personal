@@ -3,7 +3,7 @@ definePageMeta({
   layout: 'admin'
 })
 
-const supabase = useSupabaseClient()
+const supabase = useSupabaseClient<any>()
 const toast = useToast()
 
 const loading = ref(false)
@@ -99,7 +99,7 @@ const columns = [
     </div>
 
     <ClientOnly>
-      <UCard :ui="{ body: 'p-0', rounded: 'rounded-2xl' }" class="overflow-hidden border-slate-200 dark:border-slate-800">
+      <UCard :ui="{ body: 'p-0' }" class="rounded-2xl overflow-hidden border-slate-200 dark:border-slate-800">
         <UTable
           :data="paginatedPosts"
           :columns="columns"
@@ -158,11 +158,9 @@ const columns = [
     <!-- Delete Confirmation Modal -->
     <UModal v-model:open="isDeleteModalOpen">
       <template #content>
-        <UCard :ui="{ 
-          ring: '', 
-          divide: 'divide-y divide-gray-100 dark:divide-gray-800',
-          body: { padding: 'p-5 sm:p-6' },
-          footer: { padding: 'p-4 sm:px-6', background: 'bg-slate-50 dark:bg-slate-800/50' }
+        <UCard :ui="{
+          body: 'p-5 sm:p-6',
+          footer: 'p-4 sm:px-6 bg-slate-50 dark:bg-slate-800/50'
         }">
           <div class="flex items-start gap-4">
             <div class="flex-shrink-0 w-12 h-12 rounded-full bg-red-50 dark:bg-red-900/20 flex items-center justify-center">

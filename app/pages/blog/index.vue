@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const supabase = useSupabaseClient()
+const supabase = useSupabaseClient<any>()
 const { locale } = useI18n()
 
 const { data: blogs, pending } = await useAsyncData('public-blogs', async () => {

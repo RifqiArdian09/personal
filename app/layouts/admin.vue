@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { DropdownMenuItem, NavigationMenuItem } from '@nuxt/ui'
 
-const supabase = useSupabaseClient()
+const supabase = useSupabaseClient<any>()
 const user = useSupabaseUser()
 const router = useRouter()
 const colorMode = useColorMode()
@@ -135,7 +135,7 @@ const pageTitle = computed(() => {
           :ui="{
             root: 'space-y-1',
             link: 'px-3 py-2 rounded-xl transition-all duration-200 group text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 aria-[current=page]:bg-teal-500/10 aria-[current=page]:text-teal-600 aria-[current=page]:dark:text-teal-400 aria-[current=page]:font-medium aria-[current=page]:shadow-sm aria-[current=page]:ring-1 aria-[current=page]:ring-teal-500/20',
-            icon: 'w-5 h-5'
+            linkLeadingIcon: 'w-5 h-5'
           }"
         />
       </template>
@@ -195,7 +195,7 @@ const pageTitle = computed(() => {
               :ui="{
                 root: 'space-y-1',
                 link: 'px-3 py-2 rounded-xl transition-all duration-200 group text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 aria-[current=page]:bg-teal-500/10 aria-[current=page]:text-teal-600 aria-[current=page]:dark:text-teal-400 aria-[current=page]:font-medium aria-[current=page]:shadow-sm aria-[current=page]:ring-1 aria-[current=page]:ring-teal-500/20',
-                icon: 'w-5 h-5'
+                linkLeadingIcon: 'w-5 h-5'
               }"
               @click="isMobileOpen = false"
             />
@@ -282,11 +282,9 @@ const pageTitle = computed(() => {
     <!-- Logout Confirmation Modal -->
     <UModal v-model:open="isLogoutModalOpen">
       <template #content>
-        <UCard :ui="{ 
-          ring: '', 
-          divide: 'divide-y divide-gray-100 dark:divide-gray-800',
-          body: { padding: 'p-5 sm:p-6' },
-          footer: { padding: 'p-4 sm:px-6', background: 'bg-slate-50 dark:bg-slate-800/50' }
+        <UCard :ui="{
+          body: 'p-5 sm:p-6',
+          footer: 'p-4 sm:px-6 bg-slate-50 dark:bg-slate-800/50'
         }">
           <div class="flex items-start gap-4">
             <div class="flex-shrink-0 w-12 h-12 rounded-full bg-teal-50 dark:bg-teal-900/20 flex items-center justify-center">

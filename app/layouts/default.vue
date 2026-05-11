@@ -25,6 +25,7 @@ const toggleLocale = () => {
 };
 
 const isMobileMenuOpen = ref(false)
+const scrolled = ref(false)
 const showBackToTop = ref(false)
 
 const scrollToTop = () => {
@@ -33,13 +34,13 @@ const scrollToTop = () => {
 
 onMounted(() => {
   window.addEventListener('scroll', () => {
-    scrolled.value = window.scrollY > 20
-    showBackToTop.value = window.scrollY > 500
+    const scrollPos = window.scrollY || document.documentElement.scrollTop
+    scrolled.value = scrollPos > 20
+    showBackToTop.value = scrollPos > 500
     
     // Update Scroll Progress Bar
-    const winScroll = document.body.scrollTop || document.documentElement.scrollTop
     const height = document.documentElement.scrollHeight - document.documentElement.clientHeight
-    const scrolled_pct = (winScroll / height) * 100
+    const scrolled_pct = (scrollPos / height) * 100
     const scrollBar = document.getElementById('scrollBar')
     if (scrollBar) scrollBar.style.width = scrolled_pct + '%'
   })
@@ -56,15 +57,15 @@ onMounted(() => {
     <!-- Back to Top Button -->
     <button
       @click="scrollToTop"
-      class="fixed bottom-8 right-8 w-12 h-12 rounded-xl border-2 border-manga-border shadow-[4px_4px_0px_var(--color-manga-border)] bg-accent text-white flex items-center justify-center z-[100] hover:-translate-y-1.5 hover:shadow-[6px_6px_0px_var(--color-manga-border)] transition-all cursor-pointer"
-      :class="showBackToTop ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'"
+      class="fixed bottom-8 right-8 w-12 h-12 rounded-xl border-2 border-manga-border shadow-[4px_4px_0px_var(--color-manga-border)] bg-accent text-white flex items-center justify-center z-[10001] hover:-translate-y-1.5 hover:shadow-[6px_6px_0px_var(--color-manga-border)] transition-all cursor-pointer"
+      :class="showBackToTop ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-10 pointer-events-none'"
     >
       <UIcon name="i-heroicons-arrow-up" class="w-6 h-6" />
     </button>
 
     <!-- Navbar -->
     <header
-      class="fixed top-0 inset-x-0 z-[999] transition-all duration-500"
+      class="fixed top-0 inset-x-0 z-[10000] transition-all duration-500"
       :class="scrolled ? 'bg-surface/80 backdrop-blur-xl border-b-[3px] border-manga-border shadow-[0_4px_20px_rgba(0,0,0,0.1)]' : 'bg-transparent pt-6'"
     >
       <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">

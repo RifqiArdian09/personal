@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const supabase = useSupabaseClient();
+const supabase = useSupabaseClient<any>();
 
 // Fetch Profile
 const { data: profile } = await useAsyncData("profile", async () => {
@@ -19,7 +19,7 @@ let isDeleting = false;
 let charIndex = 0;
 
 const typeRole = () => {
-  const currentFullRole = roles[currentRoleIndex.value];
+  const currentFullRole = roles[currentRoleIndex.value]!;
 
   if (isDeleting) {
     displayedRole.value = currentFullRole.substring(0, charIndex - 1);

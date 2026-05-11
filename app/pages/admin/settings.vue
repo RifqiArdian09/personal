@@ -22,7 +22,7 @@ const localeOptions = computed(() => {
   return []
 })
 
-const updateLanguage = async (val: string) => {
+const updateLanguage = async (val: any) => {
   await setLocale(val)
   toast.add({ title: 'Language updated', color: 'primary', icon: 'i-heroicons-language' })
 }

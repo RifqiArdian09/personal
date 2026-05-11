@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const route = useRoute()
-const supabase = useSupabaseClient()
+const supabase = useSupabaseClient<any>()
 
 const slug = route.params.slug as string
 
