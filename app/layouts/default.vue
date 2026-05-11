@@ -25,11 +25,16 @@ const toggleLocale = () => {
 };
 
 const isMobileMenuOpen = ref(false)
-const scrolled = ref(false)
+const showBackToTop = ref(false)
+
+const scrollToTop = () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
 onMounted(() => {
   window.addEventListener('scroll', () => {
     scrolled.value = window.scrollY > 20
+    showBackToTop.value = window.scrollY > 500
     
     // Update Scroll Progress Bar
     const winScroll = document.body.scrollTop || document.documentElement.scrollTop
@@ -37,18 +42,6 @@ onMounted(() => {
     const scrolled_pct = (winScroll / height) * 100
     const scrollBar = document.getElementById('scrollBar')
     if (scrollBar) scrollBar.style.width = scrolled_pct + '%'
-
-    // Toggle Back to Top Button
-    const backToTop = document.getElementById('backToTop')
-    if (backToTop) {
-      if (window.scrollY > 500) {
-        backToTop.classList.remove('opacity-0', 'pointer-events-none')
-        backToTop.classList.add('opacity-100', 'pointer-events-all')
-      } else {
-        backToTop.classList.add('opacity-0', 'pointer-events-none')
-        backToTop.classList.remove('opacity-100', 'pointer-events-all')
-      }
-    }
   })
 })
 </script>
@@ -62,9 +55,9 @@ onMounted(() => {
 
     <!-- Back to Top Button -->
     <button
-      @click="window.scrollTo({ top: 0, behavior: 'smooth' })"
-      class="fixed bottom-8 right-8 w-12 h-12 rounded-xl border-2 border-manga-border shadow-[4px_4px_0px_var(--color-manga-border)] bg-accent text-white flex items-center justify-center z-[100] hover:-translate-y-1.5 hover:shadow-[6px_6px_0px_var(--color-manga-border)] transition-all cursor-pointer opacity-0 pointer-events-none"
-      id="backToTop"
+      @click="scrollToTop"
+      class="fixed bottom-8 right-8 w-12 h-12 rounded-xl border-2 border-manga-border shadow-[4px_4px_0px_var(--color-manga-border)] bg-accent text-white flex items-center justify-center z-[100] hover:-translate-y-1.5 hover:shadow-[6px_6px_0px_var(--color-manga-border)] transition-all cursor-pointer"
+      :class="showBackToTop ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'"
     >
       <UIcon name="i-heroicons-arrow-up" class="w-6 h-6" />
     </button>

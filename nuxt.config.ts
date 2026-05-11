@@ -22,7 +22,25 @@ export default defineNuxtConfig({
     redirectOptions: {
       login: '/admin/login',
       callback: '/confirm',
-      exclude: ['/', '/about', '/projects', '/projects/*', '/blog', '/blog/*', '/certificates', '/contact'],
+      exclude: [
+        '/',
+        '/id',
+        '/id/',
+        '/about',
+        '/id/about',
+        '/projects',
+        '/projects/*',
+        '/id/projects',
+        '/id/projects/*',
+        '/blog',
+        '/blog/*',
+        '/id/blog',
+        '/id/blog/*',
+        '/certificates',
+        '/id/certificates',
+        '/contact',
+        '/id/contact',
+      ],
     }
   },
   i18n: {
@@ -30,7 +48,7 @@ export default defineNuxtConfig({
       { code: 'en', iso: 'en-US', name: 'English', file: 'en.json' },
       { code: 'id', iso: 'id-ID', name: 'Indonesia', file: 'id.json' }
     ],
-    defaultLocale: 'en',
+    defaultLocale: 'id',
     langDir: '../locales',
     strategy: 'prefix_except_default'
   },
