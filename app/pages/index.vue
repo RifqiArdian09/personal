@@ -54,7 +54,9 @@ const { data: projectData } = await useAsyncData(
     const to = from + projectLimit - 1;
     const { data, count } = await supabase
       .from("projects")
-      .select("*, project_team_members(*), project_tech(*)", { count: "exact" })
+      .select("*, project_team_members(*), project_tech(*), project_images(*)", { count: "exact" })
+      .order("featured", { ascending: false })
+      .order("thumbnail_url", { ascending: false, nullsFirst: false })
       .order("created_at", { ascending: false })
       .range(from, to);
     return { items: data || [], total: count || 0 };
@@ -964,106 +966,149 @@ watch([projectPage, certPage, projects, certificates], () => {
         <div v-if="isProjectModalOpen && selectedProject"
           class="fixed inset-0 z-[999] flex items-center justify-center p-2 sm:p-4 md:p-8">
           <div
-            class="manga-card w-full max-w-[900px] max-h-[95vh] flex flex-col overflow-hidden bg-surface shadow-[10px_10px_0px_rgba(0,0,0,0.1)] dark:shadow-[10px_10px_0px_rgba(255,255,255,0.05)] md:shadow-[20px_20px_0px_rgba(0,0,0,0.1)]"
+            class="manga-card w-full max-w-[850px] max-h-[92vh] flex flex-col overflow-hidden bg-surface shadow-[10px_10px_0px_rgba(0,0,0,0.1)] md:shadow-[15px_15px_0px_rgba(0,0,0,0.1)]"
             @click.stop>
-            <!-- Modal Header with Image -->
-            <div
-              class="relative aspect-video md:aspect-[21/9] bg-surface-alt shrink-0 overflow-hidden border-b-4 border-manga-border group">
-              <img v-if="selectedProject.thumbnail_url" :src="selectedProject.thumbnail_url"
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[2s]" />
-              <div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent z-10"></div>
-              
-              <!-- Floating Overlay Gradient for readability -->
-              <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10"></div>
-
-              <!-- Close Button -->
-              <button @click="isProjectModalOpen = false"
-                class="absolute top-3 right-3 md:top-6 md:right-6 w-9 h-9 md:w-11 md:h-11 rounded-xl bg-white/20 backdrop-blur-xl text-text-primary flex items-center justify-center cursor-pointer hover:bg-accent hover:text-white transition-all border-2 border-white/30 z-30 shadow-2xl group/close">
-                <UIcon name="i-heroicons-x-mark" class="w-5 h-5 md:w-6 md:h-6 group-hover/close:rotate-90 transition-transform duration-300" />
-              </button>
-
-              <div class="absolute bottom-4 left-4 right-4 md:bottom-8 md:left-10 md:right-10 z-20">
-                <div class="flex flex-wrap gap-2 mb-2 md:mb-3">
-                  <span v-for="tech in selectedProject.project_tech" :key="tech.id"
-                    class="px-2 py-0.5 bg-accent text-white text-[7px] md:text-[9px] font-black uppercase tracking-[0.2em] rounded-md shadow-lg border border-white/20">{{
-                    tech.tech_name }}</span>
-                </div>
-                <h2 class="font-display font-black text-lg md:text-3xl text-text-primary leading-tight drop-shadow-sm">
+            
+            <!-- Modal Header (Title & Close Button) -->
+            <div class="flex items-center justify-between p-3 md:p-5 border-b-4 border-manga-border bg-surface shrink-0 z-30">
+              <div class="flex-1 min-w-0 pr-4 pl-2">
+                <h2 class="font-display font-black text-base md:text-2xl text-text-primary truncate">
                   {{ selectedProject.title }}
                 </h2>
               </div>
+              <button @click="isProjectModalOpen = false"
+                class="w-9 h-9 md:w-10 md:h-10 rounded-xl border-2 border-manga-border flex items-center justify-center cursor-pointer hover:bg-accent hover:text-white transition-all group/close bg-surface-alt shrink-0">
+                <UIcon name="i-heroicons-x-mark" class="w-5 h-5 group-hover/close:rotate-90 transition-transform duration-300" />
+              </button>
             </div>
 
-            <!-- Modal Body -->
-            <div class="p-5 md:p-10 flex-1 overflow-y-auto space-y-6 md:space-y-10 bg-noise custom-scrollbar relative">
+            <!-- Scrollable Content -->
+            <div class="flex-1 overflow-y-auto custom-scrollbar bg-noise relative">
               <!-- Decorative background element -->
-              <div class="absolute top-0 right-0 w-48 h-48 bg-accent/5 blur-[100px] pointer-events-none"></div>
+              <div class="absolute top-0 right-0 w-64 h-64 bg-accent/5 blur-[120px] pointer-events-none"></div>
 
-              <div class="prose prose-slate dark:prose-invert max-w-none relative z-10">
-                <!-- Description with stylized quote -->
-                <div class="relative py-1">
-                  <UIcon name="i-heroicons-chat-bubble-bottom-center-text" class="absolute -top-3 -left-3 w-10 h-10 text-accent/10 -z-10" />
-                  <p class="text-sm md:text-lg text-text-secondary leading-relaxed font-medium italic border-l-4 border-accent pl-4 md:pl-6 py-0.5">
-                    {{ selectedProject.description }}
-                  </p>
+              <!-- Main Hero Image (Full Width) -->
+              <div class="w-full bg-surface-alt border-b-2 border-divider flex items-center justify-center min-h-[200px] md:min-h-[350px] relative overflow-hidden group">
+                <img v-if="selectedProject.thumbnail_url" :src="selectedProject.thumbnail_url"
+                  class="max-w-full max-h-[450px] object-contain shadow-2xl relative z-10" />
+                <div v-else class="w-full h-48 flex items-center justify-center">
+                   <UIcon name="i-heroicons-photo" class="w-20 h-20 text-text-secondary opacity-10" />
                 </div>
+                <!-- Background blur of the same image for depth -->
+                <img v-if="selectedProject.thumbnail_url" :src="selectedProject.thumbnail_url"
+                  class="absolute inset-0 w-full h-full object-cover blur-3xl opacity-10 scale-110" />
+              </div>
 
-                <div class="h-px bg-gradient-to-r from-transparent via-divider to-transparent w-full my-6 md:my-10"></div>
+              <!-- Main Grid Layout -->
+              <div class="grid grid-cols-1 lg:grid-cols-12 gap-0">
                 
-                <div v-html="selectedProject.content" class="text-xs md:text-base leading-relaxed text-text-primary/90 space-y-3 font-medium">
-                </div>
-              </div>
+                <!-- Left Column: Content & Description -->
+                <div class="lg:col-span-8 p-6 md:p-10 space-y-10 border-r-0 lg:border-r-2 border-divider bg-surface/30">
+                  
+                  <!-- Description -->
+                  <div class="relative py-2">
+                    <UIcon name="i-heroicons-chat-bubble-bottom-center-text" class="absolute -top-4 -left-4 w-12 h-12 text-accent/10 -z-10" />
+                    <p class="text-base md:text-xl text-text-primary leading-relaxed font-medium italic border-l-4 border-accent pl-5 md:pl-8 py-1">
+                      {{ selectedProject.description }}
+                    </p>
+                  </div>
 
-              <!-- Team Members Section -->
-              <div v-if="
-                selectedProject.status === 'Team Project' &&
-                selectedProject.project_team_members?.length > 0
-              " class="space-y-5 md:space-y-6 relative z-10">
-                <div class="flex items-center gap-3">
-                  <div class="h-[1.5px] flex-1 bg-divider/50"></div>
-                  <h4
-                    class="font-display font-black text-[9px] md:text-xs uppercase tracking-[0.2em] text-text-secondary flex items-center gap-2 px-3 py-1.5 border-2 border-divider rounded-full">
-                    <UIcon name="i-heroicons-users" class="w-3.5 h-3.5 md:w-4 md:h-4 text-accent" />
-                    Project Contributors
-                  </h4>
-                  <div class="h-[1.5px] flex-1 bg-divider/50"></div>
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
-                  <a v-for="member in selectedProject.project_team_members" :key="member.id" :href="member.github_url"
-                    target="_blank"
-                    class="p-3 md:p-4 rounded-xl bg-surface-alt border-2 border-divider flex items-center gap-3 group/member hover:border-accent hover:bg-accent/5 transition-all shadow-sm">
-                    <UAvatar :src="member.username === 'RifqiArdian09' 
-                        ? profile?.profile_image_url 
-                        : (member.github_url ? `${member.github_url}.png` : `https://github.com/${member.username}.png`)
-                      " size="sm"
-                      class="rounded-lg border-2 border-manga-border group-hover/member:rotate-12 transition-all shadow-sm" />
-                    <div class="flex-1 min-w-0">
-                      <p class="font-black text-xs md:text-sm leading-tight truncate text-text-primary">
-                        {{ member.username }}
-                      </p>
-                      <p class="text-[8px] md:text-[9px] font-mono text-text-secondary uppercase tracking-widest mt-0.5">
-                        GitHub Profile
-                      </p>
+                  <!-- Full Case Study Content -->
+                  <div class="prose prose-slate dark:prose-invert max-w-none">
+                    <div class="flex items-center gap-3 mb-6">
+                       <h4 class="font-display font-black text-xs uppercase tracking-widest text-accent bg-accent/10 px-3 py-1 rounded-lg">Case Study</h4>
+                       <div class="h-px flex-1 bg-divider"></div>
                     </div>
-                    <div class="w-7 h-7 rounded-lg border border-divider flex items-center justify-center group-hover/member:bg-accent group-hover/member:text-white transition-all">
-                      <UIcon name="i-heroicons-arrow-up-right" class="w-3.5 h-3.5" />
+                    <div v-html="selectedProject.content" class="text-sm md:text-base leading-relaxed text-text-primary/80 space-y-4 font-medium">
                     </div>
-                  </a>
-                </div>
-              </div>
+                  </div>
 
-              <!-- Action Footer -->
-              <div class="flex flex-col sm:flex-row gap-3 pt-4 md:pt-6 sticky bottom-0 bg-surface/80 backdrop-blur-md -mx-5 -mb-5 p-5 md:static md:bg-transparent md:p-0 md:m-0 z-20">
-                <a v-if="selectedProject.demo_url" :href="selectedProject.demo_url" target="_blank"
-                  class="flex items-center justify-center gap-2.5 px-6 py-3.5 md:py-4 bg-accent text-white font-black rounded-xl border-2 border-manga-border shadow-[3px_3px_0px_#000] hover:translate-y-[-2px] hover:shadow-[5px_5px_0px_#000] active:translate-y-[0px] active:shadow-[1px_1px_0px_#000] transition-all uppercase text-[9px] md:text-xs tracking-widest flex-1">
-                  <UIcon name="i-heroicons-globe-alt" class="w-4 h-4" /> Lihat
-                  Demo Live
-                </a>
-                <a v-if="selectedProject.github_url" :href="selectedProject.github_url" target="_blank"
-                  class="flex items-center justify-center gap-2.5 px-6 py-3.5 md:py-4 bg-[#0f172a] text-white font-black rounded-xl border-2 border-manga-border shadow-[3px_3px_0px_#000] hover:translate-y-[-2px] hover:shadow-[5px_5px_0px_#000] active:translate-y-[0px] active:shadow-[1px_1px_0px_#000] transition-all uppercase text-[9px] md:text-xs tracking-widest flex-1">
-                  <UIcon name="i-simple-icons-github" class="w-4 h-4" /> Source
-                  Code
-                </a>
+                  <!-- Project Gallery Section (Main Column) -->
+                  <div v-if="selectedProject.project_images?.length > 0" class="pt-6 space-y-6">
+                    <div class="flex items-center gap-3">
+                      <h4 class="font-display font-black text-xs uppercase tracking-widest text-accent bg-accent/10 px-3 py-1 rounded-lg">Gallery</h4>
+                      <div class="h-px flex-1 bg-divider"></div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div v-for="(img, idx) in selectedProject.project_images" :key="idx" 
+                        class="group/img relative rounded-xl overflow-hidden border-2 border-manga-border shadow-[4px_4px_0px_var(--color-manga-border)] hover:shadow-[6px_6px_0px_var(--color-accent-soft)] transition-all duration-500 bg-surface-alt flex items-center justify-center">
+                        <img :src="img.image_url" :alt="img.caption || 'Project Screenshot'" class="max-w-full max-h-full object-contain transition-transform duration-700 group-hover/img:scale-105" />
+                        <div v-if="img.caption" class="absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-black/80 to-transparent translate-y-2 opacity-0 group-hover/img:translate-y-0 group-hover/img:opacity-100 transition-all duration-500">
+                          <p class="text-[9px] font-bold text-white uppercase tracking-widest">{{ img.caption }}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Right Column: Sidebar Metadata -->
+                <div class="lg:col-span-4 p-6 md:p-8 space-y-8 bg-surface-alt/20">
+                  
+                  <!-- Project Type Badge -->
+                  <div class="p-4 rounded-xl border-2 border-manga-border bg-surface shadow-[4px_4px_0px_var(--color-manga-border)]">
+                    <p class="text-[9px] font-black text-text-secondary uppercase tracking-widest mb-1">Project Type</p>
+                    <div class="flex items-center gap-2">
+                      <UIcon :name="selectedProject.status === 'Team Project' ? 'i-heroicons-users' : 'i-heroicons-user'" class="w-5 h-5 text-accent" />
+                      <span class="font-display font-black text-lg text-text-primary">{{ selectedProject.status }}</span>
+                    </div>
+                  </div>
+
+                  <!-- Tech Stack -->
+                  <div class="space-y-3">
+                    <p class="text-[9px] font-black text-text-secondary uppercase tracking-widest border-b-2 border-divider pb-2">Technologies</p>
+                    <div class="flex flex-wrap gap-2">
+                      <span v-for="tech in selectedProject.project_tech" :key="tech.id"
+                        class="px-2.5 py-1.5 bg-surface border-2 border-manga-border text-text-primary text-[9px] font-black uppercase tracking-widest rounded-lg shadow-[2px_2px_0px_var(--color-manga-border)]">
+                        {{ tech.tech_name }}
+                      </span>
+                    </div>
+                  </div>
+
+                  <!-- Release Date -->
+                  <div class="space-y-2">
+                    <p class="text-[9px] font-black text-text-secondary uppercase tracking-widest border-b-2 border-divider pb-2">Release</p>
+                    <div class="flex items-center gap-3 text-text-primary font-bold">
+                      <UIcon name="i-heroicons-calendar" class="w-5 h-5 text-accent" />
+                      <span>{{ selectedProject.date }}</span>
+                    </div>
+                  </div>
+
+                  <!-- Team Members (Conditional) -->
+                  <div v-if="selectedProject.status === 'Team Project' && selectedProject.project_team_members?.length > 0" class="space-y-4">
+                    <p class="text-[9px] font-black text-text-secondary uppercase tracking-widest border-b-2 border-divider pb-2">Team Members</p>
+                    <div class="grid grid-cols-1 gap-3">
+                      <a v-for="member in selectedProject.project_team_members" :key="member.id" :href="member.github_url"
+                        target="_blank"
+                        class="p-3 rounded-xl bg-surface border-2 border-divider flex items-center gap-3 group/member hover:border-accent transition-all shadow-sm">
+                        <UAvatar :src="member.username === 'RifqiArdian09' 
+                            ? profile?.profile_image_url 
+                            : (member.github_url ? `${member.github_url}.png` : `https://github.com/${member.username}.png`)
+                          " size="sm" class="border-2 border-manga-border" />
+                        <div class="flex-1 min-w-0">
+                          <p class="font-black text-[11px] truncate text-text-primary">{{ member.username }}</p>
+                        </div>
+                        <UIcon name="i-heroicons-arrow-up-right" class="w-3 h-3 text-text-secondary group-hover/member:text-accent" />
+                      </a>
+                    </div>
+                  </div>
+
+                  <!-- Action Buttons -->
+                  <div class="space-y-3 pt-6">
+                    <p class="text-[9px] font-black text-text-secondary uppercase tracking-widest border-b-2 border-divider pb-2">Quick Links</p>
+                    <div class="flex flex-col gap-3">
+                      <a v-if="selectedProject.demo_url" :href="selectedProject.demo_url" target="_blank"
+                        class="flex items-center justify-center gap-3 px-6 py-4 bg-accent text-white font-black rounded-xl border-2 border-manga-border shadow-[4px_4px_0px_#000] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000] active:translate-y-0 transition-all uppercase text-[10px] tracking-widest">
+                        <UIcon name="i-heroicons-globe-alt" class="w-5 h-5" /> Live Preview
+                      </a>
+                      <a v-if="selectedProject.github_url" :href="selectedProject.github_url" target="_blank"
+                        class="flex items-center justify-center gap-3 px-6 py-4 bg-[#0f172a] text-white font-black rounded-xl border-2 border-manga-border shadow-[4px_4px_0px_#000] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000] active:translate-y-0 transition-all uppercase text-[10px] tracking-widest">
+                        <UIcon name="i-simple-icons-github" class="w-5 h-5" /> Source Code
+                      </a>
+                    </div>
+                  </div>
+
+                </div>
               </div>
             </div>
           </div>
