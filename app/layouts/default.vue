@@ -49,7 +49,6 @@ const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
 };
 
-const showWhatsAppCookie = useCookie("show_whatsapp", { default: () => true });
 
 // Fetch Profile for WhatsApp link
 const supabase = useSupabaseClient<any>();
@@ -126,17 +125,8 @@ watch(locale, () => typeWaLabel());
 
     <!-- WhatsApp Chat Button (Right, Parallel with Back-to-Top) -->
     <div
-      v-if="showWhatsAppCookie"
       class="fixed bottom-8 right-8 z-[10001] flex items-center gap-3 group animate-pop"
     >
-      <!-- Close Button (Appears on Hover) -->
-      <button
-        @click="showWhatsAppCookie = false"
-        class="absolute -top-3 -right-3 w-6 h-6 rounded-full bg-red-500 text-white border-2 border-manga-border flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20 cursor-pointer shadow-md"
-      >
-        <UIcon name="i-heroicons-x-mark" class="w-4 h-4" />
-      </button>
-
       <!-- Label (Auto appearing with typing effect) -->
       <span
         class="px-3 py-1 bg-surface border-2 border-manga-border rounded-lg text-[10px] font-black uppercase tracking-widest text-text-primary whitespace-nowrap shadow-[4px_4px_0px_var(--color-manga-border)] pointer-events-none relative flex items-center order-1"
@@ -249,25 +239,6 @@ watch(locale, () => typeWaLabel());
             }}</span>
           </button>
 
-          <!-- WhatsApp Quick Toggle -->
-          <button
-            @click="showWhatsAppCookie = !showWhatsAppCookie"
-            class="w-10 h-10 rounded-lg border-2 border-manga-border shadow-[3px_3px_0px_var(--color-manga-border)] bg-surface flex items-center justify-center hover:translate-y-[-2px] hover:shadow-[5px_5px_0px_var(--color-manga-border)] transition-all cursor-pointer group"
-            :title="showWhatsAppCookie ? 'Hide WhatsApp' : 'Show WhatsApp'"
-          >
-            <UIcon
-              :name="
-                showWhatsAppCookie
-                  ? 'i-simple-icons-whatsapp'
-                  : 'i-heroicons-chat-bubble-left-ellipsis'
-              "
-              class="w-4 h-4 transition-transform group-hover:scale-110"
-              :class="
-                showWhatsAppCookie ? 'text-[#25D366]' : 'text-text-secondary'
-              "
-            />
-          </button>
-
           <!-- Mobile Menu Toggle -->
           <button
             class="lg:hidden w-12 h-12 rounded-xl border-2 border-manga-border shadow-[4px_4px_0px_var(--color-manga-border)] bg-surface flex items-center justify-center hover:translate-y-[-2px] transition-all cursor-pointer"
@@ -334,18 +305,6 @@ watch(locale, () => typeWaLabel());
             >
               <UIcon name="i-simple-icons-linkedin" class="w-5 h-5" />
             </a>
-            <button
-              @click="showWhatsAppCookie = !showWhatsAppCookie"
-              class="w-11 h-11 rounded-xl border-2 border-manga-border shadow-[3px_3px_0px_var(--color-manga-border)] flex items-center justify-center hover:-translate-y-1 transition-all bg-surface"
-            >
-              <UIcon
-                name="i-simple-icons-whatsapp"
-                class="w-5 h-5"
-                :class="
-                  showWhatsAppCookie ? 'text-[#25D366]' : 'text-text-secondary'
-                "
-              />
-            </button>
           </div>
         </div>
       </Transition>

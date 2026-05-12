@@ -10,7 +10,7 @@ useHead({
 })
 
 useSeoMeta({
-  title: 'Rifqi Ardian — Fullstack Developer',
+  title: 'Rifqi Ardian | Portfolio',
   description: 'Portfolio Rifqi Ardian, seorang Fullstack Developer yang membangun pengalaman web modern, interaktif, dan bermakna.',
   ogTitle: 'Rifqi Ardian — Fullstack Developer',
   ogDescription: 'Portfolio Rifqi Ardian, seorang Fullstack Developer yang membangun pengalaman web modern, interaktif, dan bermakna.',

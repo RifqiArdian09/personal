@@ -18,15 +18,9 @@ const profile = ref({
   linkedin: '',
   instagram: '',
   email: '',
-  whatsapp: '',
-  show_whatsapp: true
+  whatsapp: ''
 })
 
-const showWhatsAppCookie = useCookie('show_whatsapp', { default: () => true })
-
-watch(() => profile.value.show_whatsapp, (newVal) => {
-  showWhatsAppCookie.value = newVal
-})
 
 const fetchProfile = async () => {
   try {
@@ -39,10 +33,6 @@ const fetchProfile = async () => {
     if (error && error.code !== 'PGRST116') throw error
     if (data) {
       profile.value = { ...profile.value, ...(data as any) }
-      // Initialize cookie from DB value if present
-      if (data.hasOwnProperty('show_whatsapp')) {
-        showWhatsAppCookie.value = (data as any).show_whatsapp
-      }
     }
   } catch (e: any) {
     toast.add({ title: 'Error fetching profile', description: e.message, color: 'error' })
@@ -179,9 +169,6 @@ onMounted(() => {
             </UFormField>
             <UFormField label="Instagram Profile">
               <UInput class="w-full" v-model="profile.instagram" icon="i-simple-icons-instagram" placeholder="instagram.com/..." />
-            </UFormField>
-            <UFormField label="WhatsApp Visibility" description="Toggle the floating WhatsApp button on your portfolio.">
-              <UCheckbox v-model="profile.show_whatsapp" label="Show WhatsApp Button" />
             </UFormField>
           </div>
         </UCard>

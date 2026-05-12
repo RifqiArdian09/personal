@@ -10,9 +10,9 @@ const { data: profile } = await useAsyncData("profile", async () => {
 
 // Typewriter Roles Logic
 const roles = [
-  "Fullstack Developer",
-  "Software Engineering Student",
-  "Cyber Security Learner",
+  "Fullstack Web Developer",
+  "Mobile App Developer",
+  "Cyber Security Enthusiast"
 ];
 const currentRoleIndex = ref(0);
 const displayedRole = ref("");
@@ -364,6 +364,26 @@ watch([projectPage, certPage, projects, certificates], () => {
         </div>
       </div>
     </section>
+    
+    <!-- ======================== INFINITE MARQUEE ======================== -->
+    <div class="relative py-12 overflow-hidden border-y-[3px] border-manga-border bg-accent rotate-[1.5deg] scale-[1.05] z-20 shadow-[0_10px_30px_rgba(0,0,0,0.1)]">
+      <div class="flex animate-marquee whitespace-nowrap">
+        <div v-for="n in 10" :key="n" class="flex items-center gap-12 px-6">
+          <span class="text-3xl md:text-5xl font-black font-display text-white uppercase tracking-tighter italic drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]">
+            Fullstack Web Developer
+          </span>
+          <UIcon name="i-heroicons-computer-desktop" class="w-8 h-8 md:w-12 md:h-12 text-white/90 drop-shadow-[0_0_8px_rgba(255,255,255,0.5)] animate-pulse" />
+          <span class="text-3xl md:text-5xl font-black font-display text-white outline-text uppercase tracking-tighter italic opacity-80">
+            Mobile App Developer
+          </span>
+          <UIcon name="i-heroicons-device-phone-mobile" class="w-8 h-8 md:w-12 md:h-12 text-white/80" />
+          <span class="text-3xl md:text-5xl font-black font-display text-white uppercase tracking-tighter italic">
+            Cyber Security Enthusiast
+          </span>
+          <UIcon name="i-heroicons-shield-check" class="w-8 h-8 md:w-12 md:h-12 text-white/90 drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]" />
+        </div>
+      </div>
+    </div>
 
     <!-- ======================== ABOUT ======================== -->
     <section id="about" class="py-32 bg-surface scroll-mt-20 relative overflow-hidden">
@@ -472,13 +492,13 @@ watch([projectPage, certPage, projects, certificates], () => {
                     <p><span class="text-[#7aa2f7]">"skills"</span>: [</p>
                     <div class="pl-6">
                       <p>
-                        <span class="text-[#9ece6a]">"Fullstack Developer"</span>,
+                        <span class="text-[#9ece6a]">"Fullstack Web Developer"</span>,
                       </p>
                       <p>
                         <span class="text-[#9ece6a]">"Software Engineering Student"</span>,
                       </p>
                       <p>
-                        <span class="text-[#9ece6a]">"Cyber Security Learner"</span>
+                        <span class="text-[#9ece6a]">"Mobile App Developer"</span>
                       </p>
                     </div>
                     <p>],</p>
@@ -560,6 +580,16 @@ watch([projectPage, certPage, projects, certificates], () => {
                     color: '#4FC08D',
                   },
                   {
+                    name: 'Java',
+                    icon: 'i-mdi-language-java',
+                    color: '#ED8B00',
+                  },
+                  {
+                    name: 'Android Studio',
+                    icon: 'i-simple-icons-androidstudio',
+                    color: '#3DDC84',
+                  },
+                  {
                     name: 'MySQL',
                     icon: 'i-simple-icons-mysql',
                     color: '#4479A1',
@@ -582,7 +612,7 @@ watch([projectPage, certPage, projects, certificates], () => {
                 
                   
                 ]" :key="tech.name"
-                  class="w-11 h-11 rounded-xl bg-surface border-2 border-manga-border flex items-center justify-center hover:bg-accent hover:text-white transition-all shadow-[3px_3px_0px_var(--color-manga-border)] group"
+                  class="w-11 h-11 rounded-xl bg-surface border-2 border-manga-border flex items-center justify-center hover:bg-accent hover:text-white transition-all shadow-[3px_3px_0px_var(--color-manga-border)] group tech-icon-glow"
                   :title="tech.name">
                   <UIcon :name="tech.icon" class="w-5 h-5 transition-colors group-hover:text-white"
                     :style="{ color: tech.color }" />
@@ -608,7 +638,6 @@ watch([projectPage, certPage, projects, certificates], () => {
           <p class="mt-4 text-text-secondary text-center max-w-2xl font-medium">
             {{ $t('projects.subtitle') }}
           </p>
-          <div class="w-24 h-2 bg-accent rounded-full mt-6 shadow-[0_4px_10px_rgba(13,148,136,0.4)]"></div>
         </div>
 
         <div v-if="projects && projects.length > 0" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
@@ -784,7 +813,6 @@ watch([projectPage, certPage, projects, certificates], () => {
           <p class="mt-4 text-text-secondary text-center max-w-2xl font-medium">
             {{ $t('certificates.subtitle') }}
           </p>
-          <div class="w-24 h-2 bg-accent rounded-full mt-6 shadow-[0_4px_10px_rgba(13,148,136,0.4)]"></div>
         </div>
 
         <div v-if="certificates && certificates.length > 0"

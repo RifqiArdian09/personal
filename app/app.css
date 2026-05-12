@@ -672,11 +672,22 @@ header {
   animation: glow-wa 2s infinite ease-in-out;
 }
 
-/* Popping / Bouncing Animation */
-@keyframes pop-bounce {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-10px) scale(1.05); }
+/* Outline Text Effect */
+.outline-text {
+  color: transparent !important;
+  -webkit-text-stroke: 1.5px white;
 }
-.animate-pop {
-  animation: pop-bounce 3s infinite ease-in-out;
+
+/* Neon Glow for Tech Icons */
+.tech-icon-glow:hover {
+  filter: drop-shadow(0 0 10px var(--color-accent));
+  transform: translateY(-5px) rotate(8deg) scale(1.1);
+  background-color: var(--color-accent) !important;
+  color: white !important;
+}
+
+/* Glassmorphism Refinement */
+.dark .manga-card {
+  background: rgba(30, 41, 59, 0.7);
+  backdrop-filter: blur(8px);
 }
