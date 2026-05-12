@@ -458,70 +458,74 @@ html.dark {
   mask-position: center;
   mask-repeat: no-repeat;
 }
-/* ===== Enhanced Code Snippet Theme (Manga/Pro) ===== */
-.prose pre {
+/* ===== Enhanced Code Snippet Theme (Tokyo Night Storm) ===== */
+/* Using more specific selectors to override Tailwind Typography (.prose) */
+.prose :where(pre) {
   @apply relative mt-8 mb-6 overflow-hidden rounded-xl border-[3px] border-manga-border shadow-[5px_5px_0px_var(--color-manga-border)] transition-all duration-300;
-  background-color: #0f172a !important; /* Deep Navy Dark */
+  background-color: #1a1b26 !important; /* Tokyo Night Background */
   padding: 0 !important;
 }
 
 /* Code Block Header (Visual Only via pseudo-elements) */
-.prose pre::before {
+.prose :where(pre)::before {
   content: '';
   display: block;
   height: 32px;
   width: 100%;
-  background: #1e293b;
-  border-bottom: 2px solid #334155;
+  background: #24283b !important; /* Tokyo Night Header */
+  border-bottom: 2px solid #2f3549 !important;
 }
 
 /* Mock Mac Buttons */
-.prose pre::after {
+.prose :where(pre)::after {
   content: '•••';
   position: absolute;
   top: 4px;
   left: 12px;
   font-size: 18px;
   letter-spacing: 2px;
-  color: #64748b;
+  color: #565f89 !important; /* Tokyo Night Comments */
   font-family: system-ui;
   pointer-events: none;
 }
 
-.prose pre code {
-  @apply block p-6 overflow-x-auto text-[0.9rem] leading-relaxed;
-  color: #e2e8f0 !important;
+.prose :where(pre code) {
+  @apply block p-6 overflow-x-auto text-[0.85rem] md:text-[0.95rem] leading-relaxed;
+  color: #a9b1d6 !important; /* Tokyo Night Foreground */
   font-family: var(--font-mono) !important;
   background-color: transparent !important;
   border: none !important;
 }
 
 /* Custom Scrollbar for Code Blocks */
-.prose pre code::-webkit-scrollbar {
+.prose :where(pre code)::-webkit-scrollbar {
   height: 8px;
 }
-.prose pre code::-webkit-scrollbar-track {
-  background: #0f172a;
+.prose :where(pre code)::-webkit-scrollbar-track {
+  background: #1a1b26 !important;
 }
-.prose pre code::-webkit-scrollbar-thumb {
-  background: #334155;
+.prose :where(pre code)::-webkit-scrollbar-thumb {
+  background: #2f3549 !important;
   border-radius: 4px;
 }
-.prose pre code::-webkit-scrollbar-thumb:hover {
-  background: var(--color-accent);
+.prose :where(pre code)::-webkit-scrollbar-thumb:hover {
+  background: #7aa2f7 !important; /* Tokyo Night Blue */
 }
 
-/* Syntax Highlighting (Lowlight / HLJS) */
+/* Syntax Highlighting (Tokyo Night Palette) */
+/* Supports HLJS, Lowlight, and general patterns */
 .hljs-comment,
-.hljs-quote {
-  color: #64748b;
-  font-style: italic;
+.hljs-quote,
+.shj-comment {
+  color: #565f89 !important;
+  font-style: italic !important;
 }
 
 .hljs-keyword,
 .hljs-selector-tag,
-.hljs-addition {
-  color: #2dd4bf; /* Teal/Accent */
+.hljs-addition,
+.shj-keyword {
+  color: #bb9af7 !important; /* Purple */
 }
 
 .hljs-number,
@@ -529,23 +533,42 @@ html.dark {
 .hljs-meta .hljs-meta-string,
 .hljs-literal,
 .hljs-doctag,
-.hljs-regexp {
-  color: #fbbf24; /* Amber/Yellow */
+.hljs-regexp,
+.shj-str,
+.shj-num {
+  color: #9ece6a !important; /* Green */
 }
 
 .hljs-title,
 .hljs-section,
 .hljs-name,
 .hljs-selector-id,
-.hljs-selector-class {
-  color: #60a5fa; /* Blue */
+.hljs-selector-class,
+.shj-title,
+.shj-func {
+  color: #7aa2f7 !important; /* Blue */
 }
 
 .hljs-variable,
 .hljs-template-variable,
 .hljs-attribute,
-.hljs-tag {
-  color: #f472b6; /* Pink */
+.hljs-tag,
+.shj-var,
+.shj-tag {
+  color: #f7768e !important; /* Red/Pink */
+}
+
+.hljs-type,
+.hljs-built_in,
+.hljs-bullet,
+.hljs-symbol,
+.shj-class {
+  color: #ff9e64 !important; /* Orange */
+}
+
+.hljs-attr,
+.shj-prop {
+  color: #7dcfff !important; /* Cyan */
 }
 
 .hljs-attr {

@@ -8,7 +8,6 @@
     "tech_stack": "Keahlian",
     "projects": "Proyek",
     "certificates": "Sertifikat",
-    "blog": "Blog",
     "settings": "Pengaturan",
     "logout": "Keluar",
     "save": "Simpan",
@@ -21,16 +20,15 @@
     "home": "Beranda",
     "about": "Tentang",
     "portfolio": "Portofolio",
-    "blog": "Blog",
     "contact": "Kontak",
     "hire_me": "Hubungi"
   },
   "hero": {
-    "greeting": "HALLO SEMUA",
+    "greeting": "HALLO ",
     "iam": "Saya",
     "description": "Seorang Fullstack Developer yang sedang mendalami dunia web development. Menciptakan pengalaman web yang menarik, interaktif, dan bermakna.",
     "cta_work": "Lihat Karya",
-    "cta_contact": "Hubungi Saya"
+    "cta_contact": "Lihat Sertifikat"
   },
   "about": {
     "badge": "01. TENTANG SAYA",
@@ -57,13 +55,6 @@
     "subtitle": "Bukti nyata dari perjalanan belajar dan dedikasi saya dalam mendalami teknologi IT.",
     "verify": "Verifikasi",
     "no_link": "Tidak ada link"
-  },
-  "blog": {
-    "badge": "04. WAWASAN",
-    "title": "Tulisan Terbaru",
-    "subtitle": "Berbagi pemikiran, tutorial, dan pengalaman seputar dunia pengembangan perangkat lunak.",
-    "read_article": "Baca Artikel",
-    "explore_all": "Lihat Semua Postingan"
   },
   "contact": {
     "badge": "05. HUBUNGI",

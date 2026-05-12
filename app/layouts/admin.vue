@@ -39,11 +39,6 @@ const navItems = computed<NavigationMenuItem[]>(() => [
     to: '/admin/certificates'
   },
   {
-    label: 'Blog',
-    icon: 'i-heroicons-document-text',
-    to: '/admin/blog'
-  },
-  {
     label: 'Settings',
     icon: 'i-heroicons-cog-6-tooth',
     to: '/admin/settings'

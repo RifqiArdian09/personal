@@ -90,22 +90,23 @@ const totalCertPages = computed(() =>
   Math.ceil((certData.value?.total || 0) / certLimit),
 );
 
-// Fetch Blog Posts (Top 3)
-const { data: blogs } = await useAsyncData("latest-blogs", async () => {
-  const { data } = await supabase
-    .from("blog_posts")
-    .select("*")
-    .order("created_at", { ascending: false })
-    .limit(3);
-  return (data || []) as any[];
-});
 
 // WhatsApp Form Logic
 const formName = ref("");
 const formMessage = ref("");
 
+const openWhatsApp = () => {
+  const phone = profile.value?.whatsapp || profile.value?.phone || "6285182911840";
+  const text = encodeURIComponent(
+    locale.value === 'id' 
+      ? "Halo Rifqi! Saya ingin berdiskusi tentang proyek." 
+      : "Hello Rifqi! I'd like to discuss a project."
+  );
+  window.open(`https://wa.me/${phone}?text=${text}`, "_blank");
+};
+
 const sendWhatsApp = () => {
-  const phone = profile.value?.phone || "6285182911840"; // Use dynamic phone or fallback
+  const phone = profile.value?.whatsapp || profile.value?.phone || "6285182911840";
   const text = encodeURIComponent(
     `Halo Rifqi! Nama saya ${formName.value}.\n\n${formMessage.value}`,
   );
@@ -289,9 +290,9 @@ watch([projectPage, certPage, projects, certificates], () => {
                 <UIcon name="i-heroicons-arrow-right"
                   class="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
               </a>
-              <a href="#contact"
+              <a href="#certificates"
                 class="btn-magnetic inline-flex items-center justify-center gap-2.5 px-6 py-3.5 bg-surface text-text-primary text-[10px] font-black uppercase tracking-widest rounded-xl border-2 border-manga-border shadow-[4px_4px_0px_var(--color-manga-border)] hover:shadow-[6px_6px_0px_var(--color-manga-border)] transition-all group">
-                <UIcon name="i-heroicons-chat-bubble-left-right" class="w-4 h-4 text-accent" />
+                <UIcon name="i-heroicons-trophy" class="w-4 h-4 text-accent" />
                 {{ $t('hero.cta_contact') }}
               </a>
             </div>
@@ -331,32 +332,32 @@ watch([projectPage, certPage, projects, certificates], () => {
 
             <!-- Floating Terminal Snippet -->
             <div
-              class="absolute -bottom-4 -right-4 sm:-right-8 z-30 w-[200px] sm:w-[280px] manga-card bg-[#0f172a] border-[3px] border-manga-border shadow-[10px_10px_0px_rgba(0,0,0,0.2)] overflow-hidden animate-float-alt"
+              class="absolute -bottom-4 -right-4 sm:-right-8 z-30 w-[200px] sm:w-[280px] manga-card bg-[#1a1b26] border-[3px] border-manga-border shadow-[10px_10px_0px_rgba(0,0,0,0.2)] overflow-hidden animate-float-alt"
               style="animation-delay: -1.5s">
-              <div class="px-4 py-2.5 bg-[#1e293b] border-b-[2.5px] border-manga-border flex items-center gap-1.5">
+              <div class="px-4 py-2.5 bg-[#24283b] border-b-[2.5px] border-manga-border flex items-center gap-1.5">
                 <div class="w-2.5 h-2.5 rounded-full bg-red-500 border border-black/10"></div>
                 <div class="w-2.5 h-2.5 rounded-full bg-yellow-500 border border-black/10"></div>
                 <div class="w-2.5 h-2.5 rounded-full bg-green-500 border border-black/10"></div>
               </div>
               <div class="p-6 font-mono text-[12px] leading-relaxed">
-                <p class="text-[#2dd4bf]">
+                <p class="text-[#bb9af7]">
                   const
-                  <span class="text-[#60a5fa]">{{
+                  <span class="text-[#7aa2f7]">{{
                     profile?.name?.split(" ")[0].toLowerCase() || "rifqi"
                     }}</span>
                   = {
                 </p>
-                <div class="pl-5 space-y-0.5">
+                <div class="pl-5 space-y-0.5 text-[#a9b1d6]">
                   <p>
-                    <span class="text-[#60a5fa]">role</span>:
-                    <span class="text-[#fbbf24]">"developer"</span>,
+                    <span class="text-[#7dcfff]">role</span>:
+                    <span class="text-[#9ece6a]">"developer"</span>,
                   </p>
                   <p>
-                    <span class="text-[#60a5fa]">passion</span>:
-                    <span class="text-[#fbbf24]">"creating"</span>
+                    <span class="text-[#7dcfff]">passion</span>:
+                    <span class="text-[#9ece6a]">"creating"</span>
                   </p>
                 </div>
-                <p class="text-[#2dd4bf]">};</p>
+                <p class="text-[#bb9af7]">};</p>
               </div>
             </div>
           </div>
@@ -435,9 +436,9 @@ watch([projectPage, certPage, projects, certificates], () => {
           <!-- Right Content: Terminal Window -->
           <div class="reveal-right">
             <div
-              class="manga-card overflow-hidden bg-[#0f172a] border-[4px] border-manga-border shadow-[12px_12px_0px_var(--color-manga-border)]">
+              class="manga-card overflow-hidden bg-[#1a1b26] border-[4px] border-manga-border shadow-[12px_12px_0px_var(--color-manga-border)]">
               <!-- Window Header -->
-              <div class="px-6 py-4 bg-[#1e293b] border-b-[3px] border-manga-border flex items-center justify-between">
+              <div class="px-6 py-4 bg-[#24283b] border-b-[3px] border-manga-border flex items-center justify-between">
                 <div class="flex items-center gap-2">
                   <div class="w-3.5 h-3.5 rounded-full bg-red-500 border border-black/20"></div>
                   <div class="w-3.5 h-3.5 rounded-full bg-yellow-500 border border-black/20"></div>
@@ -452,46 +453,46 @@ watch([projectPage, certPage, projects, certificates], () => {
               </div>
 
               <!-- Code Content -->
-              <div class="p-8 md:p-10 font-mono text-sm md:text-base leading-relaxed overflow-x-auto">
+              <div class="p-8 md:p-10 font-mono text-sm md:text-base leading-relaxed overflow-x-auto text-[#a9b1d6]">
                 <div class="space-y-1">
-                  <p class="text-slate-500 font-bold">{</p>
+                  <p class="text-[#565f89] font-bold">{</p>
                   <div class="pl-6 space-y-1">
                     <p>
-                      <span class="text-[#60a5fa]">"name"</span>:
-                      <span class="text-[#fbbf24]">"{{ profile?.name || "Rifqi Ardian" }}"</span>,
+                      <span class="text-[#7aa2f7]">"name"</span>:
+                      <span class="text-[#9ece6a]">"{{ profile?.name || "Rifqi Ardian" }}"</span>,
                     </p>
                     <p>
-                      <span class="text-[#60a5fa]">"role"</span>:
-                      <span class="text-[#fbbf24]">"Student & Developer"</span>,
+                      <span class="text-[#7aa2f7]">"role"</span>:
+                      <span class="text-[#9ece6a]">"Student & Developer"</span>,
                     </p>
                     <p>
-                      <span class="text-[#60a5fa]">"location"</span>:
-                      <span class="text-[#fbbf24]">"{{ profile?.location || "Indonesia" }}"</span>,
+                      <span class="text-[#7aa2f7]">"location"</span>:
+                      <span class="text-[#9ece6a]">"{{ profile?.location || "Indonesia" }}"</span>,
                     </p>
-                    <p><span class="text-[#60a5fa]">"skills"</span>: [</p>
+                    <p><span class="text-[#7aa2f7]">"skills"</span>: [</p>
                     <div class="pl-6">
                       <p>
-                        <span class="text-[#fbbf24]">"Fullstack Developer"</span>,
+                        <span class="text-[#9ece6a]">"Fullstack Developer"</span>,
                       </p>
                       <p>
-                        <span class="text-[#fbbf24]">"Software Engineering Student"</span>,
+                        <span class="text-[#9ece6a]">"Software Engineering Student"</span>,
                       </p>
                       <p>
-                        <span class="text-[#fbbf24]">"Cyber Security Learner"</span>
+                        <span class="text-[#9ece6a]">"Cyber Security Learner"</span>
                       </p>
                     </div>
                     <p>],</p>
                     <p>
-                      <span class="text-[#60a5fa]">"currentFocus"</span>:
-                      <span class="text-[#fbbf24]">"Building scalable web & mobile applications"</span>,
+                      <span class="text-[#7aa2f7]">"currentFocus"</span>:
+                      <span class="text-[#9ece6a]">"Building scalable web & mobile applications"</span>,
                     </p>
                     <p>
-                      <span class="text-[#60a5fa]">"funFact"</span>:
-                      <span class="text-[#fbbf24]">"I enjoy turning startup ideas into real
+                      <span class="text-[#7aa2f7]">"funFact"</span>:
+                      <span class="text-[#9ece6a]">"I enjoy turning startup ideas into real
                         products"</span>
                     </p>
                   </div>
-                  <p class="text-slate-500 font-bold">}</p>
+                  <p class="text-[#565f89] font-bold">}</p>
                 </div>
               </div>
             </div>
@@ -519,6 +520,11 @@ watch([projectPage, certPage, projects, certificates], () => {
                     color: '#F7DF1E',
                   },
                   {
+                    name: 'TypeScript',
+                    icon: 'i-simple-icons-typescript',
+                    color: '#007ACC',
+                  },
+                  {
                     name: 'PHP',
                     icon: 'i-simple-icons-php',
                     color: '#777BB4',
@@ -527,6 +533,11 @@ watch([projectPage, certPage, projects, certificates], () => {
                     name: 'Python',
                     icon: 'i-simple-icons-python',
                     color: '#3776AB',
+                  },
+                  {
+                    name: 'Tailwind CSS',
+                    icon: 'i-simple-icons-tailwindcss',
+                    color: '#06B6D4',
                   },
                   {
                     name: 'Laravel',
@@ -548,6 +559,27 @@ watch([projectPage, certPage, projects, certificates], () => {
                     icon: 'i-simple-icons-vuedotjs',
                     color: '#4FC08D',
                   },
+                  {
+                    name: 'MySQL',
+                    icon: 'i-simple-icons-mysql',
+                    color: '#4479A1',
+                  },
+                  {
+                    name: 'Supabase',
+                    icon: 'i-simple-icons-supabase',
+                    color: '#21c387',
+                  },
+                  {
+                    name: 'Git',
+                    icon: 'i-simple-icons-git',
+                    color: '#f05032',
+                  },
+                  {
+                    name: 'Github',
+                    icon: 'i-simple-icons-github',
+                    color: '#181717',
+                  }
+                
                   
                 ]" :key="tech.name"
                   class="w-11 h-11 rounded-xl bg-surface border-2 border-manga-border flex items-center justify-center hover:bg-accent hover:text-white transition-all shadow-[3px_3px_0px_var(--color-manga-border)] group"
@@ -627,9 +659,9 @@ watch([projectPage, certPage, projects, certificates], () => {
                       " size="xs" :max="10">
                         <ULink v-for="member in project.project_team_members" :key="member.id" :to="member.github_url"
                           target="_blank" class="hover:ring-2 hover:ring-accent transition rounded-full" raw>
-                          <UAvatar :src="member.github_url
-                              ? `${member.github_url}.png`
-                              : `https://github.com/${member.username}.png`
+                          <UAvatar :src="member.username === 'RifqiArdian09' 
+                              ? profile?.profile_image_url 
+                              : (member.github_url ? `${member.github_url}.png` : `https://github.com/${member.username}.png`)
                             " :alt="member.username" size="xs" loading="lazy" />
                         </ULink>
                       </UAvatarGroup>
@@ -836,76 +868,9 @@ watch([projectPage, certPage, projects, certificates], () => {
       </div>
     </section>
 
-    <!-- ======================== BLOG ======================== -->
-    <section id="blog" class="py-32 scroll-mt-20 bg-hero-pattern relative">
-      <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex flex-col items-center mb-24 reveal-scale">
-          <span
-            class="manga-badge mb-6 py-2 px-6 font-bold tracking-widest uppercase bg-accent text-white border-manga-border">
-            {{ $t('blog.badge') }}
-          </span>
-          <h2 class="section-heading text-4xl md:text-5xl text-center">
-            {{ $t('blog.title') }}
-          </h2>
-          <p class="mt-4 text-text-secondary text-center max-w-2xl font-medium">
-            {{ $t('blog.subtitle') }}
-          </p>
-          <div class="w-24 h-2 bg-accent rounded-full mt-6 shadow-[0_4px_10px_rgba(13,148,136,0.4)]"></div>
-        </div>
-
-        <div v-if="blogs && blogs.length > 0" class="grid lg:grid-cols-3 gap-10">
-          <NuxtLink v-for="(post, idx) in blogs" :key="post.id" :to="`/blog/${post.slug}`"
-            class="manga-card overflow-hidden group flex flex-col reveal-card" :class="`reveal-delay-${(idx % 6) + 1}`">
-            <div class="relative aspect-video overflow-hidden bg-surface-alt border-b-[3px] border-manga-border">
-              <div
-                class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-              </div>
-              <img v-if="post.cover_url" :src="post.cover_url"
-                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                loading="lazy" />
-              <div v-else class="w-full h-full flex items-center justify-center img-shimmer">
-                <UIcon name="i-heroicons-document-text" class="w-10 h-10 text-text-secondary opacity-30" />
-              </div>
-            </div>
-            <div class="p-5 flex-1 flex flex-col space-y-3">
-              <p class="text-xs font-mono text-accent font-semibold flex items-center gap-1">
-                <UIcon name="i-heroicons-calendar" class="w-3.5 h-3.5" />
-                {{
-                  new Date(post.created_at).toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                    year: "numeric",
-                  })
-                }}
-              </p>
-              <h3
-                class="font-display font-bold text-lg group-hover:text-accent transition-colors duration-300 line-clamp-2">
-                {{ post.title }}
-              </h3>
-              <p class="text-text-secondary text-sm line-clamp-3 flex-1">
-                {{ post.excerpt }}
-              </p>
-              <div
-                class="flex items-center justify-center gap-2 py-2 bg-accent text-white text-[9px] font-black uppercase tracking-widest rounded-lg border-2 border-manga-border shadow-[3px_3px_0px_#000] group-hover:translate-y-[-1px] group-hover:shadow-[4px_4px_0px_#000] transition-all pt-3 border-t border-divider mt-auto">
-                Read Article
-                <UIcon name="i-heroicons-arrow-right" class="w-3.5 h-3.5" />
-              </div>
-            </div>
-          </NuxtLink>
-        </div>
-
-        <div class="flex justify-center mt-12 reveal-scale">
-          <NuxtLink to="/blog"
-            class="btn-magnetic inline-flex items-center gap-2.5 px-6 py-3 bg-surface text-sm font-bold rounded-xl border-2 border-manga-border shadow-[4px_4px_0px_var(--color-manga-border)] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_var(--color-manga-border)] hover:text-accent transition-all font-display text-text-primary">
-            {{ locale === 'id' ? 'Lihat Semua Artikel' : 'Explore All Posts' }}
-            <UIcon name="i-heroicons-arrow-right" class="w-5 h-5" />
-          </NuxtLink>
-        </div>
-      </div>
-    </section>
 
     <!-- ======================== FAQ ======================== -->
-    <section id="faq" class="py-32 bg-surface scroll-mt-20 relative overflow-hidden">
+    <section id="faq" class="py-32 bg-hero-pattern scroll-mt-20 relative overflow-hidden">
       <!-- Floating Abstract Balls -->
       <div class="absolute top-1/2 -left-10 w-28 h-28 rounded-full border-4 border-manga-border bg-accent/15 shadow-[8px_8px_0px_var(--color-manga-border)] animate-float pointer-events-none z-0"></div>
       <div class="absolute top-20 right-20 w-16 h-16 rounded-full border-2 border-manga-border bg-blue-500/10 shadow-[4px_4px_0px_var(--color-manga-border)] animate-float-alt pointer-events-none z-0"></div>
@@ -969,44 +934,55 @@ watch([projectPage, certPage, projects, certificates], () => {
       <!-- Project Modal -->
       <Transition name="modal">
         <div v-if="isProjectModalOpen && selectedProject"
-          class="fixed inset-0 z-[999] flex items-center justify-center p-4 md:p-8">
+          class="fixed inset-0 z-[999] flex items-center justify-center p-2 sm:p-4 md:p-8">
           <div
-            class="manga-card w-full max-w-[850px] max-h-[90vh] flex flex-col overflow-hidden bg-surface shadow-[20px_20px_0px_rgba(0,0,0,0.1)] dark:shadow-[20px_20px_0px_rgba(255,255,255,0.05)]"
+            class="manga-card w-full max-w-[900px] max-h-[95vh] flex flex-col overflow-hidden bg-surface shadow-[10px_10px_0px_rgba(0,0,0,0.1)] dark:shadow-[10px_10px_0px_rgba(255,255,255,0.05)] md:shadow-[20px_20px_0px_rgba(0,0,0,0.1)]"
             @click.stop>
             <!-- Modal Header with Image -->
             <div
-              class="relative aspect-[21/9] bg-surface-alt shrink-0 overflow-hidden border-b-4 border-manga-border group">
+              class="relative aspect-video md:aspect-[21/9] bg-surface-alt shrink-0 overflow-hidden border-b-4 border-manga-border group">
               <img v-if="selectedProject.thumbnail_url" :src="selectedProject.thumbnail_url"
                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[2s]" />
-              <div class="absolute inset-0 bg-gradient-to-t from-surface via-surface/20 to-transparent z-10"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent z-10"></div>
+              
+              <!-- Floating Overlay Gradient for readability -->
+              <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10"></div>
 
               <!-- Close Button -->
               <button @click="isProjectModalOpen = false"
-                class="absolute top-4 right-4 w-10 h-10 rounded-xl bg-white/10 backdrop-blur-xl text-text-primary flex items-center justify-center cursor-pointer hover:bg-accent hover:text-white transition-all border-2 border-white/20 z-30 shadow-xl">
-                <UIcon name="i-heroicons-x-mark" class="w-6 h-6" />
+                class="absolute top-3 right-3 md:top-6 md:right-6 w-9 h-9 md:w-11 md:h-11 rounded-xl bg-white/20 backdrop-blur-xl text-text-primary flex items-center justify-center cursor-pointer hover:bg-accent hover:text-white transition-all border-2 border-white/30 z-30 shadow-2xl group/close">
+                <UIcon name="i-heroicons-x-mark" class="w-5 h-5 md:w-6 md:h-6 group-hover/close:rotate-90 transition-transform duration-300" />
               </button>
 
-              <div class="absolute bottom-6 left-8 right-8 z-20">
-                <div class="flex flex-wrap gap-2 mb-3">
+              <div class="absolute bottom-4 left-4 right-4 md:bottom-8 md:left-10 md:right-10 z-20">
+                <div class="flex flex-wrap gap-2 mb-2 md:mb-3">
                   <span v-for="tech in selectedProject.project_tech" :key="tech.id"
-                    class="px-3 py-1 bg-accent text-white text-[9px] font-black uppercase tracking-[0.2em] rounded-md shadow-lg">{{
+                    class="px-2 py-0.5 bg-accent text-white text-[7px] md:text-[9px] font-black uppercase tracking-[0.2em] rounded-md shadow-lg border border-white/20">{{
                     tech.tech_name }}</span>
                 </div>
-                <h2 class="font-display font-black text-2xl md:text-4xl text-text-primary leading-tight">
+                <h2 class="font-display font-black text-lg md:text-3xl text-text-primary leading-tight drop-shadow-sm">
                   {{ selectedProject.title }}
                 </h2>
               </div>
             </div>
 
             <!-- Modal Body -->
-            <div class="p-8 md:p-10 flex-1 overflow-y-auto space-y-10 bg-noise custom-scrollbar">
-              <div class="prose prose-slate dark:prose-invert max-w-none">
-                <p
-                  class="text-lg md:text-xl text-text-secondary leading-relaxed font-medium italic border-l-4 border-accent pl-6">
-                  {{ selectedProject.description }}
-                </p>
-                <div class="h-px bg-divider w-full my-10"></div>
-                <div v-html="selectedProject.content" class="text-base md:text-lg leading-relaxed text-text-primary">
+            <div class="p-5 md:p-10 flex-1 overflow-y-auto space-y-6 md:space-y-10 bg-noise custom-scrollbar relative">
+              <!-- Decorative background element -->
+              <div class="absolute top-0 right-0 w-48 h-48 bg-accent/5 blur-[100px] pointer-events-none"></div>
+
+              <div class="prose prose-slate dark:prose-invert max-w-none relative z-10">
+                <!-- Description with stylized quote -->
+                <div class="relative py-1">
+                  <UIcon name="i-heroicons-chat-bubble-bottom-center-text" class="absolute -top-3 -left-3 w-10 h-10 text-accent/10 -z-10" />
+                  <p class="text-sm md:text-lg text-text-secondary leading-relaxed font-medium italic border-l-4 border-accent pl-4 md:pl-6 py-0.5">
+                    {{ selectedProject.description }}
+                  </p>
+                </div>
+
+                <div class="h-px bg-gradient-to-r from-transparent via-divider to-transparent w-full my-6 md:my-10"></div>
+                
+                <div v-html="selectedProject.content" class="text-xs md:text-base leading-relaxed text-text-primary/90 space-y-3 font-medium">
                 </div>
               </div>
 
@@ -1014,59 +990,50 @@ watch([projectPage, certPage, projects, certificates], () => {
               <div v-if="
                 selectedProject.status === 'Team Project' &&
                 selectedProject.project_team_members?.length > 0
-              " class="space-y-6">
-                <div class="flex items-center gap-4">
-                  <div class="h-px flex-1 bg-divider"></div>
+              " class="space-y-5 md:space-y-6 relative z-10">
+                <div class="flex items-center gap-3">
+                  <div class="h-[1.5px] flex-1 bg-divider/50"></div>
                   <h4
-                    class="font-display font-black text-sm uppercase tracking-[0.3em] text-text-secondary flex items-center gap-2">
-                    <UIcon name="i-heroicons-users" class="w-5 h-5 text-accent" />
-                    Contributors
+                    class="font-display font-black text-[9px] md:text-xs uppercase tracking-[0.2em] text-text-secondary flex items-center gap-2 px-3 py-1.5 border-2 border-divider rounded-full">
+                    <UIcon name="i-heroicons-users" class="w-3.5 h-3.5 md:w-4 md:h-4 text-accent" />
+                    Project Contributors
                   </h4>
-                  <div class="h-px flex-1 bg-divider"></div>
+                  <div class="h-[1.5px] flex-1 bg-divider/50"></div>
                 </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
                   <a v-for="member in selectedProject.project_team_members" :key="member.id" :href="member.github_url"
                     target="_blank"
-                    class="p-4 rounded-2xl bg-surface-alt border-2 border-divider flex items-center gap-4 group/member hover:border-accent hover:bg-accent/5 transition-all">
-                    <UAvatar :src="member.github_url
-                        ? `${member.github_url}.png`
-                        : `https://github.com/${member.username}.png`
+                    class="p-3 md:p-4 rounded-xl bg-surface-alt border-2 border-divider flex items-center gap-3 group/member hover:border-accent hover:bg-accent/5 transition-all shadow-sm">
+                    <UAvatar :src="member.username === 'RifqiArdian09' 
+                        ? profile?.profile_image_url 
+                        : (member.github_url ? `${member.github_url}.png` : `https://github.com/${member.username}.png`)
                       " size="sm"
-                      class="rounded-full border-2 border-manga-border group-hover/member:rotate-12 transition-transform" />
+                      class="rounded-lg border-2 border-manga-border group-hover/member:rotate-12 transition-all shadow-sm" />
                     <div class="flex-1 min-w-0">
-                      <p class="font-black text-sm leading-tight truncate">
+                      <p class="font-black text-xs md:text-sm leading-tight truncate text-text-primary">
                         {{ member.username }}
                       </p>
-                      <p class="text-[9px] font-mono text-text-secondary uppercase tracking-widest mt-0.5">
+                      <p class="text-[8px] md:text-[9px] font-mono text-text-secondary uppercase tracking-widest mt-0.5">
                         GitHub Profile
                       </p>
                     </div>
-                    <UIcon name="i-heroicons-arrow-up-right"
-                      class="w-4 h-4 text-text-secondary group-hover/member:text-accent transition-all" />
+                    <div class="w-7 h-7 rounded-lg border border-divider flex items-center justify-center group-hover/member:bg-accent group-hover/member:text-white transition-all">
+                      <UIcon name="i-heroicons-arrow-up-right" class="w-3.5 h-3.5" />
+                    </div>
                   </a>
                 </div>
               </div>
 
               <!-- Action Footer -->
-              <div class="flex flex-wrap gap-4 pt-6">
+              <div class="flex flex-col sm:flex-row gap-3 pt-4 md:pt-6 sticky bottom-0 bg-surface/80 backdrop-blur-md -mx-5 -mb-5 p-5 md:static md:bg-transparent md:p-0 md:m-0 z-20">
                 <a v-if="selectedProject.demo_url" :href="selectedProject.demo_url" target="_blank"
-                  class="flex items-center justify-center gap-3 px-8 py-4 bg-accent text-white font-black rounded-2xl border-2 border-manga-border shadow-[4px_4px_0px_#000] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000] transition-all uppercase text-xs tracking-widest"
-                  :class="[
-                    !selectedProject.github_url
-                      ? 'w-full'
-                      : 'flex-1 min-w-[200px]',
-                  ]">
-                  <UIcon name="i-heroicons-globe-alt" class="w-5 h-5" /> Lihat
+                  class="flex items-center justify-center gap-2.5 px-6 py-3.5 md:py-4 bg-accent text-white font-black rounded-xl border-2 border-manga-border shadow-[3px_3px_0px_#000] hover:translate-y-[-2px] hover:shadow-[5px_5px_0px_#000] active:translate-y-[0px] active:shadow-[1px_1px_0px_#000] transition-all uppercase text-[9px] md:text-xs tracking-widest flex-1">
+                  <UIcon name="i-heroicons-globe-alt" class="w-4 h-4" /> Lihat
                   Demo Live
                 </a>
                 <a v-if="selectedProject.github_url" :href="selectedProject.github_url" target="_blank"
-                  class="flex items-center justify-center gap-3 px-8 py-4 bg-[#0f172a] text-white font-black rounded-2xl border-2 border-manga-border shadow-[4px_4px_0px_#000] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000] transition-all uppercase text-xs tracking-widest"
-                  :class="[
-                    !selectedProject.demo_url
-                      ? 'w-full'
-                      : 'flex-1 min-w-[200px]',
-                  ]">
-                  <UIcon name="i-simple-icons-github" class="w-5 h-5" /> Source
+                  class="flex items-center justify-center gap-2.5 px-6 py-3.5 md:py-4 bg-[#0f172a] text-white font-black rounded-xl border-2 border-manga-border shadow-[3px_3px_0px_#000] hover:translate-y-[-2px] hover:shadow-[5px_5px_0px_#000] active:translate-y-[0px] active:shadow-[1px_1px_0px_#000] transition-all uppercase text-[9px] md:text-xs tracking-widest flex-1">
+                  <UIcon name="i-simple-icons-github" class="w-4 h-4" /> Source
                   Code
                 </a>
               </div>

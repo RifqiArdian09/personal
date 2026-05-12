@@ -8,7 +8,6 @@
     "tech_stack": "Tech Stack",
     "projects": "Projects",
     "certificates": "Certificates",
-    "blog": "Blog",
     "settings": "Settings",
     "logout": "Logout",
     "save": "Save",
@@ -21,16 +20,15 @@
     "home": "Home",
     "about": "About",
     "portfolio": "Portfolio",
-    "blog": "Blog",
     "contact": "Contact",
     "hire_me": "Hire Me"
   },
   "hero": {
-    "greeting": "HELLO EVERYONE",
+    "greeting": "HELLO ",
     "iam": "I am",
     "description": "A Fullstack Developer deeply diving into the world of web development. Creating engaging, interactive, and meaningful web experiences.",
     "cta_work": "View Work",
-    "cta_contact": "Contact Me"
+    "cta_contact": "View Certificates"
   },
   "about": {
     "badge": "01. ABOUT ME",
@@ -57,13 +55,6 @@
     "subtitle": "Tangible proof of my learning journey and dedication to deepening IT technology.",
     "verify": "Verify",
     "no_link": "No link"
-  },
-  "blog": {
-    "badge": "04. INSIGHTS",
-    "title": "Latest Writings",
-    "subtitle": "Sharing thoughts, tutorials, and experiences around the world of software development.",
-    "read_article": "Read Article",
-    "explore_all": "Explore All Posts"
   },
   "contact": {
     "badge": "05. GET IN TOUCH",
