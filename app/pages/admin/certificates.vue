@@ -19,7 +19,7 @@ const { data: certificates, pending: loading, refresh: fetchCertificates } = awa
 })
 
 const page = ref(1)
-const itemsPerPage = 5
+const itemsPerPage = 10
 
 const paginatedCertificates = computed(() => {
   if (!certificates.value) return []
