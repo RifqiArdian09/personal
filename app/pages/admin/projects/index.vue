@@ -19,7 +19,7 @@ const { data: projects, pending: loading, refresh: fetchProjects } = await useAs
 })
 
 const page = ref(1)
-const itemsPerPage = 5
+const itemsPerPage = 10
 
 const paginatedProjects = computed(() => {
   if (!projects.value) return []

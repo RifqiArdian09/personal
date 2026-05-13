@@ -46,7 +46,7 @@ const typeRole = () => {
 
 // Fetch Projects with Pagination
 const projectPage = ref(1);
-const projectLimit = 6;
+const projectLimit = 9;
 const { data: projectData } = await useAsyncData(
   "projects-paged",
   async () => {
