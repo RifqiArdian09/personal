@@ -382,7 +382,7 @@ watch([projectPage, certPage, projects, certificates], () => {
           <span class="text-3xl md:text-5xl font-black font-display text-white uppercase tracking-tighter italic">
             IT Enthusiast
           </span>
-          <UIcon name="i-heroicons-shield-check" class="w-8 h-8 md:w-12 md:h-12 text-white/90 drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]" />
+          <UIcon name="i-heroicons-command-line" class="w-8 h-8 md:w-12 md:h-12 text-white/90 drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]" />
         </div>
       </div>
     </div>
