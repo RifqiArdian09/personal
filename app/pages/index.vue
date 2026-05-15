@@ -542,11 +542,6 @@ watch([projectPage, certPage, projects, certificates], () => {
                     color: '#F7DF1E',
                   },
                   {
-                    name: 'TypeScript',
-                    icon: 'i-simple-icons-typescript',
-                    color: '#007ACC',
-                  },
-                  {
                     name: 'PHP',
                     icon: 'i-simple-icons-php',
                     color: '#777BB4',
@@ -580,11 +575,6 @@ watch([projectPage, certPage, projects, certificates], () => {
                     name: 'Vue.js',
                     icon: 'i-simple-icons-vuedotjs',
                     color: '#4FC08D',
-                  },
-                  {
-                    name: 'Java',
-                    icon: 'i-mdi-language-java',
-                    color: '#ED8B00',
                   },
                   {
                     name: 'Android Studio',
