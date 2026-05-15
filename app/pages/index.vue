@@ -497,10 +497,10 @@ watch([projectPage, certPage, projects, certificates], () => {
                         <span class="text-[#9ece6a]">"Fullstack Web Developer"</span>,
                       </p>
                       <p>
-                        <span class="text-[#9ece6a]">"Software Engineering Student"</span>,
+                        <span class="text-[#9ece6a]">"Mobile App Developer"</span>,
                       </p>
                       <p>
-                        <span class="text-[#9ece6a]">"Mobile App Developer"</span>
+                        <span class="text-[#9ece6a]">"IT Enthusiast"</span>
                       </p>
                     </div>
                     <p>],</p>
